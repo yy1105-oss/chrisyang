@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment Design — Christopher Yang</title>
+  <meta name="description" content="Tackle Interactive Question Types — Assessment Design case study by Christopher Yang.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+      Chrisyang
+    </a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger">
+          Works
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-dropdown-menu">
+          <a href="platform.html" class="nav-dropdown-item">
+            <span class="nav-dropdown-item-title">Navigating Ambiguity</span>
+            <span class="nav-dropdown-item-sub">Platform Design</span>
+          </a>
+          <a href="apps.html" class="nav-dropdown-item">
+            <span class="nav-dropdown-item-title">Learning on the Go</span>
+            <span class="nav-dropdown-item-sub">Mobile Design</span>
+          </a>
+          <a href="branding.html" class="nav-dropdown-item">
+            <span class="nav-dropdown-item-title">Unify Apps Visual Language</span>
+            <span class="nav-dropdown-item-sub">Branding Design</span>
+          </a>
+          <a href="assessment.html" class="nav-dropdown-item">
+            <span class="nav-dropdown-item-title">Tackle Interactive Question Types</span>
+            <span class="nav-dropdown-item-sub">Assessment Design</span>
+          </a>
+        </div>
+      </div>
+      <a href="https://drive.google.com/file/d/1PKk_yvtjGGQ4_b9qK4UiG_FFVXlT4Xbw/view?usp=sharing" target="_blank" class="nav-resume">Resume</a>
+      <a href="contact.html" class="nav-cta">Say Hello</a>
+    </div>
+    <div class="nav-mobile-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="container">
+
+    <header class="case-hero">
+      <div class="case-hero-eyebrow">Assessment Design</div>
+      <h1>Tackle Interactive Question Types</h1>
+      <p class="case-hero-sub">Modernizing the assessment experience for learners</p>
+      <img class="case-hero-img" src="https://framerusercontent.com/modules/MN82ZTrLohGlEtXTjLS5/VtUtMi6UVfAcUARvZzi2/assets/J9IHKabnEKN2gKxrtN5ROD47gD0.png" alt="Assessment Design Hero">
+    </header>
+
+    <div class="case-body">
+
+      <section class="case-section">
+        <h3>Project Overview</h3>
+        <p>As an education sector product, we need to create the best user experience for reading and studying. Assessment becomes an essential experience in dire need of improvement and recommendations.</p>
+        <p>We have commonly used question banks accessible across all learning platforms that reach many students. These questions were locked into a very rigid format — the visuals were out of touch and behavior was outdated. In order to optimize the access and learning experience for learners, I was brought in to bring question types up-to-date and define a mobile strategy.</p>
+        <p>Rather than showing all the design types, I will demonstrate the design process through the Accounting Table question type.</p>
+      </section>
+
+      <hr class="case-divider">
+
+      <section class="case-section">
+        <h3>Accounting Table</h3>
+        <p>The accounting table within assessment becomes a challenging case: it only shows partial rows or columns as the user answers each entry. I had to decide which orientation is best. After researching how common apps like Microsoft Excel and Google Sheets behave on mobile, I proposed allowing content authors to set the table cell dimensions.</p>
+        <p>This design allows users to view information within the table clearly and avoid gesture conflict (scrolling vertically/horizontally vs. pinch to zoom).</p>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/MN82ZTrLohGlEtXTjLS5/VtUtMi6UVfAcUARvZzi2/assets/FpYHiDIyZS4y4y9zaD805vs9M4g.png" alt="Simple table">
+          <p class="case-img-caption">Simple table: keeping the cell dimension allows users to focus on scrolling and avoid gesture confusion.</p>
+        </div>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/MN82ZTrLohGlEtXTjLS5/VtUtMi6UVfAcUARvZzi2/assets/Z8SaufpXrFqPMOen6dC9kkvRj3s.png" alt="Fixed cell dimension">
+          <p class="case-img-caption">Fixing the table cell dimension without zoom avoids confusing gestures when multiple tables are stacked.</p>
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <section class="case-section">
+        <h3>Checking Answer Design</h3>
+        <p>After determining the table cell behavior, the next challenge was showing results. The original design showed results in a new table below the existing table. A usability test revealed user frustration at the time it takes to scroll up and down to check answers against their own input — so showing answers inline became apparent.</p>
+        <p>The question became: <em>"How might we show user input and the correct answer?"</em> After iteration and usability testing, I decided to combine two approaches:</p>
+        <ul>
+          <li><strong>Button switch:</strong> A toggle allows users to switch between their input and the correct answer.</li>
+          <li><strong>Indicator:</strong> After testing various iconography, the blue triangle is less visually invasive and intuitively signals users to click for more explanation.</li>
+        </ul>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/MN82ZTrLohGlEtXTjLS5/VtUtMi6UVfAcUARvZzi2/assets/O9ZvsAk1ECl0vCxhnqkFXxFPI.png" alt="Answer check design 1">
+        </div>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/MN82ZTrLohGlEtXTjLS5/VtUtMi6UVfAcUARvZzi2/assets/O2fyv02mTQPLJntj8oyFmymXd4.png" alt="Answer check design 2">
+        </div>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/MN82ZTrLohGlEtXTjLS5/VtUtMi6UVfAcUARvZzi2/assets/tor7cepFCuCsysh45EUZlJw8.png" alt="Answer check design 3">
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <section class="case-section">
+        <h3>Results</h3>
+        <div class="results-grid">
+          <div class="result-stat">
+            <span class="result-stat-num">40%</span>
+            <span class="result-stat-label">of authors adopted new question types within 3 months</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-num">70%</span>
+            <span class="result-stat-label">of question types completed before team transition</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-num">∞</span>
+            <span class="result-stat-label">Mobile strategy continued as key principle for future redesigns</span>
+          </div>
+        </div>
+        <p>The newly designed question types were widely adopted by authors when creating interactive content. The mobile strategy and design process continued to serve as the key principle in ongoing question type redesign.</p>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-copy">©2023. All rights reserved. Created by <a href="mailto:Chris.yang.design@gmail.com">Chris Yang</a></p>
+    <div class="footer-links">
+      <a href="https://drive.google.com/file/d/1C6L22A_inPMwB6SXOAL65EUYt7ZPldAD/view?usp=sharing" target="_blank">Resume</a>
+      <a href="contact.html">Say Hello</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

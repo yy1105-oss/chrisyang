@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Platform Design — Christopher Yang</title>
+  <meta name="description" content="Navigating Ambiguity — Platform Design case study by Christopher Yang.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+      Chrisyang
+    </a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger">
+          Works
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-dropdown-menu">
+          <a href="platform.html" class="nav-dropdown-item">
+            <span class="nav-dropdown-item-title">Navigating Ambiguity</span>
+            <span class="nav-dropdown-item-sub">Platform Design</span>
+          </a>
+          <a href="apps.html" class="nav-dropdown-item">
+            <span class="nav-dropdown-item-title">Learning on the Go</span>
+            <span class="nav-dropdown-item-sub">Mobile Design</span>
+          </a>
+          <a href="branding.html" class="nav-dropdown-item">
+            <span class="nav-dropdown-item-title">Unify Apps Visual Language</span>
+            <span class="nav-dropdown-item-sub">Branding Design</span>
+          </a>
+          <a href="assessment.html" class="nav-dropdown-item">
+            <span class="nav-dropdown-item-title">Tackle Interactive Question Types</span>
+            <span class="nav-dropdown-item-sub">Assessment Design</span>
+          </a>
+        </div>
+      </div>
+      <a href="https://drive.google.com/file/d/1PKk_yvtjGGQ4_b9qK4UiG_FFVXlT4Xbw/view?usp=sharing" target="_blank" class="nav-resume">Resume</a>
+      <a href="contact.html" class="nav-cta">Say Hello</a>
+    </div>
+    <div class="nav-mobile-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="container">
+
+    <header class="case-hero">
+      <div class="case-hero-eyebrow">Platform Design</div>
+      <h1>Identify The Essentials</h1>
+      <p class="case-hero-sub">Navigating Ambiguity</p>
+      <img class="case-hero-img" src="https://framerusercontent.com/modules/gSgjwFdtmyaMhFJbWRwi/XxxkbFaYWq9EYMbOL6mi/assets/7aP6qEaiE1WokHD3mspx7loEI.png" alt="Platform Design Hero">
+    </header>
+
+    <div class="case-body">
+
+      <section class="case-section">
+        <h3>Product Overview</h3>
+        <p>Bronte is a content authoring platform that helps content producers create content. Users include content author Lead, content authors, and QAs. I am responsible for improving workspace usability, which covers project organization, assets link, notification, to export.</p>
+      </section>
+
+      <section class="case-section">
+        <h3>Challenge</h3>
+        <p>The multiple design requests were "patches" that eventually led to fundamental usability issues. There are many features on the platform that cluttered the interface. As a result, I initiated an audit and heuristic review of the platform.</p>
+      </section>
+
+      <section class="case-section">
+        <h3>Audit and Heuristic Review</h3>
+        <p><strong>Difficult to Navigate:</strong> Too many clicks to access courses and lessons, and it takes users too long to find relevant content.</p>
+        <p>Switch workspace was time-consuming and unclear to new users what workspace they were currently in.</p>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/gSgjwFdtmyaMhFJbWRwi/XxxkbFaYWq9EYMbOL6mi/assets/lOfoRvqzi0cv3ojVrbvndJkzFk.png" alt="Click through flow">
+          <p class="case-img-caption">Too many clicks to access courses and lessons — users took too long to find relevant content.</p>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <h3>Process</h3>
+        <p>The process involved several cycles of meetings:</p>
+        <ol>
+          <li>Share the audit with stakeholders and align with areas of confusion.</li>
+          <li>Work with a learning designer and product manager to establish the correct taxonomy and information architecture.</li>
+          <li>Create versions of improvements and align with stakeholders.</li>
+          <li>Validate with current and new users.</li>
+          <li>Update design, create specs, and socialize with the Dev team to create an MVP roadmap.</li>
+        </ol>
+      </section>
+
+      <section class="case-section">
+        <h3>Seeking Alignment for Product Design Initiative</h3>
+        <p>Confident that addressing the essential usability design would in turn address requests from product, I conducted a workshop to seek business, user, and design overlaps.</p>
+        <p>After finding the overlap, I advocated for the secondary and tertiary priorities, leading us to the immediate need: <strong>Product Efficiency</strong> — which would improve most users' navigation experience.</p>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/gSgjwFdtmyaMhFJbWRwi/XxxkbFaYWq9EYMbOL6mi/assets/fz3QEHXoLIHPzOulk6h13VkYE.png" alt="Overlap diagram">
+          <p class="case-img-caption">Diagraming overlaps: graphing out the commonalities among business, user, and heuristic design review produces the essential product design initiative.</p>
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <section class="case-section">
+        <h3>2 Versions for Persona Needs</h3>
+        <p>I created 2 versions based on user needs from the initial interview and requirements.</p>
+        <p><strong>Version 1:</strong> Starts with the workspace dropdown, fulfilling users' need to determine which workspace to go to. Keeps the left side clean and emphasizes content producers' need to work on 1–2 workspaces at any given time.</p>
+        <p><strong>Version 2:</strong> Reveals all the features and workspaces available to the user. Showing the workspaces at one glance saves extra clicks. Includes a collapsable function for the workspace so the sidebar won't be overly cluttered.</p>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/gSgjwFdtmyaMhFJbWRwi/XxxkbFaYWq9EYMbOL6mi/assets/zmSTiitS7ONoKv608IEogiPnAo.png" alt="A/B versions">
+          <p class="case-img-caption">A/B Testing: 2 versions that pronounce workspace and 'recent' feature differently based on persona needs.</p>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <h3>A/B Testing</h3>
+        <p>I conducted A/B testing among 5 internal lead producers and 5 academic institutional designers (for fresh eyes and usability). There was a higher preference towards Version 2 among both current and new users.</p>
+        <p>Current Bronte users found Recent and Shared With Me helpful but felt indifferent about the expanded workspace. In Version 1, 30% of users thought the recent/favorite section only showed content within the selected workspace. In Version 2, the collapsed workspace design was not noticeable to 15% of users, and the drop-down labels confused most users.</p>
+      </section>
+
+      <section class="case-section">
+        <h3>Iterated Wireframe Based on Findings</h3>
+        <p>With the test findings, Version 2's layout was more intuitive and satisfied most users. I removed the labels and collapsable feature and showed all workspaces directly. Feedback was well received — one content producer noted the workspace labels seemed too similar to top section features, so a visual differentiator was needed.</p>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/gSgjwFdtmyaMhFJbWRwi/XxxkbFaYWq9EYMbOL6mi/assets/ajn2721T1OnuPElCXIpilPnagro.png" alt="Iteration wireframe">
+          <p class="case-img-caption">Iteration: Moving forward with Version 2 and improving the design based on user findings.</p>
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <section class="case-section">
+        <h3>Final Design</h3>
+        <p>I socialized the design with the product owner and director. Quick-access sections created:</p>
+        <ul>
+          <li>The <strong>Recent</strong> section allows users to return to previously accessed content.</li>
+          <li>The <strong>Favorites</strong> section provides content authors and QAs who oversee multiple projects a quick way to pin key work.</li>
+          <li><strong>Shared with me</strong> helps users stay on top of new projects delegated to them — providing business value in the absence of a notification feature.</li>
+        </ul>
+        <p><a href="https://www.figma.com/proto/60ZxB5mWXU9N7a268WUDZf/Bronte---Demo?page-id=2374%3A42385&type=design&node-id=2374-43031&viewport=4692%2C-7197%2C0.22&t=nW7d7DAo588UqZrH-1&scaling=min-zoom&starting-point-node-id=2374%3A43031&show-proto-sidebar=1&mode=design" target="_blank" class="btn-primary">
+          View Prototype
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a></p>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/gSgjwFdtmyaMhFJbWRwi/XxxkbFaYWq9EYMbOL6mi/assets/JrfkTckMaNA9E1ntdoSnSzMTkdQ.png" alt="Final design">
+          <p class="case-img-caption">Final approved design with spec (spacing, states) and explanations on responsive design.</p>
+        </div>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/gSgjwFdtmyaMhFJbWRwi/XxxkbFaYWq9EYMbOL6mi/assets/pbbg1NLcJCO1eGdbtFCAIobus0.png" alt="Final design detail">
+        </div>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/gSgjwFdtmyaMhFJbWRwi/XxxkbFaYWq9EYMbOL6mi/assets/AP64cR4fbb9X5zicDSQEStc0jCE.png" alt="Final design states">
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <section class="case-section">
+        <h3>Results</h3>
+        <div class="results-grid">
+          <div class="result-stat">
+            <span class="result-stat-num">92%</span>
+            <span class="result-stat-label">of users located a course quickly in the new environment</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-num">30%</span>
+            <span class="result-stat-label">increase in time efficiency locating and opening courses</span>
+          </div>
+          <div class="result-stat">
+            <span class="result-stat-num">14/15</span>
+            <span class="result-stat-label">content producers showed positive feedback on Recent &amp; Favorites</span>
+          </div>
+        </div>
+        <p>We shared the newly designed workspace with 3 Admins, 5 content producer leads, and 15 content producers. 3/3 Admins and 4/5 leads felt the new design helped them quickly navigate between workspaces.</p>
+        <div class="case-img-block">
+          <img src="https://framerusercontent.com/modules/gSgjwFdtmyaMhFJbWRwi/XxxkbFdtmyaMhFJbWRwi/assets/4DPO3AH3COm9JuTofumIPebUgw.png" alt="Results">
+        </div>
+
+        <div class="testimonial">
+          <p>"It's much more easier to go between each discipline and projects now."</p>
+          <cite>— Sarah Peterson, Content Director</cite>
+        </div>
+        <div class="testimonial">
+          <p>"The recent feature in sidebar helped me quickly get back to my content."</p>
+          <cite>— Sree Achatz, Content Producer</cite>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-copy">©2023. All rights reserved. Created by <a href="mailto:Chris.yang.design@gmail.com">Chris Yang</a></p>
+    <div class="footer-links">
+      <a href="https://drive.google.com/file/d/1C6L22A_inPMwB6SXOAL65EUYt7ZPldAD/view?usp=sharing" target="_blank">Resume</a>
+      <a href="contact.html">Say Hello</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
