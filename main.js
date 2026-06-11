@@ -13,9 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!href || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel') || href.startsWith('#')) return;
     link.addEventListener('click', e => {
       e.preventDefault();
-      document.body.style.opacity = '0';
-      document.body.style.transform = 'translateY(6px)';
-      document.body.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+      const main = document.querySelector('main');
+      if (main) {
+        main.style.opacity = '0';
+        main.style.transform = 'translateY(6px)';
+        main.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+      }
       setTimeout(() => { window.location.href = href; }, 260);
     });
   });
