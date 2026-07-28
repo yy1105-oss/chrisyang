@@ -78,14 +78,8 @@ a { color: inherit; text-decoration: none; }
 }
 .nav-logo-icon {
   width: 22px; height: 22px;
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 3px;
-}
-.nav-logo-icon span {
-  width: 5px; height: 5px;
-  background: var(--text-dark);
-  border-radius: 1px;
+  display: block;
+  object-fit: contain;
 }
 .nav-links {
   display: flex;
@@ -122,7 +116,7 @@ a { color: inherit; text-decoration: none; }
   background: var(--white);
   border: 1px solid var(--mid-gray);
   border-radius: 10px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
   min-width: 240px;
   overflow: hidden;
   opacity: 0;
@@ -287,6 +281,18 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ── CASE STUDY PAGES ── */
+.back-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  margin-top: 32px;
+  transition: color var(--transition);
+}
+.back-home-link:hover { color: var(--text-dark); }
 .case-hero {
   padding: 64px 0 48px;
   border-bottom: 1px solid var(--mid-gray);
@@ -365,6 +371,35 @@ a { color: inherit; text-decoration: none; }
   margin-top: 10px;
   font-style: italic;
 }
+
+.cta-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--off-white);
+  border-radius: 12px;
+  padding: 32px 36px;
+  margin-top: 56px;
+  gap: 24px;
+}
+.cta-block h3 {
+  font-family: var(--serif);
+  font-size: 1.375rem;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+.cta-block p { font-size: 0.9375rem; color: var(--text-muted); margin: 0; }
+.cta-link {
+  padding: 12px 24px;
+  background: var(--teal);
+  color: white;
+  border-radius: 7px;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  white-space: nowrap;
+}
+.cta-link:hover { background: var(--teal-dark); }
 
 .case-divider {
   border: none;
@@ -573,4 +608,5 @@ a { color: inherit; text-decoration: none; }
   .hero { padding: 48px 0 40px; }
   .case-hero { padding: 48px 0 36px; }
   .contact-hero { padding: 48px 0 36px; }
+  .cta-block { flex-direction: column; align-items: flex-start; }
 }

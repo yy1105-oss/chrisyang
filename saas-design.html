@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christopher Yang — Sodexo RevUP Case Study</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/png" href="images/favicon/favicon.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --ink: #1A1A18;
+    --mid: #52524E;
+    --muted: #8C8C88;
+    --rule: #D8DCE0;
+    --tag-bg: #E4E8EC;
+  }
+
+  body {
+    font-size: 15px;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  /* ── PAGE LAYOUT ── */
+  .page { max-width: 1100px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+
+  /* ── HERO META GRID ── */
+  .meta-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    border: 1px solid var(--rule); border-radius: 10px;
+    overflow: hidden; margin-top: 40px;
+  }
+  .meta-cell { padding: 20px 24px; border-right: 1px solid var(--rule); }
+  .meta-cell:last-child { border-right: none; }
+  .meta-label { font-size: 10px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  .meta-value { font-size: 13px; font-weight: 500; color: var(--ink); }
+
+  /* ── CONTENT LAYOUT (sidebar + main) ── */
+  .content-wrap {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+    padding-top: 72px;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  .sidebar {
+    position: sticky; top: 96px;
+    height: fit-content;
+    align-self: start;
+  }
+  .sidebar-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .sidebar-nav { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-nav a {
+    font-size: 13px; color: var(--muted); text-decoration: none;
+    padding: 5px 0; border-left: 2px solid transparent;
+    padding-left: 12px; transition: color 0.15s, border-color 0.15s;
+    line-height: 1.4;
+  }
+  .sidebar-nav a:hover { color: var(--ink); border-left-color: var(--rule); }
+  .sidebar-nav a.active { color: var(--ink); font-weight: 500; border-left-color: var(--ink); }
+
+  /* ── MAIN CONTENT ── */
+  .main { min-width: 0; padding-bottom: 100px; }
+
+  .cs-section {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--rule);
+    scroll-margin-top: 80px;
+  }
+  .cs-section:last-of-type { border-bottom: none; }
+
+  .section-kicker {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+  }
+  .cs-section h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.15; letter-spacing: -0.01em;
+    font-weight: 400; margin-bottom: 28px; color: var(--ink);
+  }
+  .cs-section h2 em { font-style: italic; font-weight: 400; }
+  .cs-section h3 {
+    font-family: var(--serif);
+    font-size: 18px; font-weight: 400;
+    margin-bottom: 10px; color: var(--ink); line-height: 1.3;
+  }
+  .cs-section p { font-size: 15px; color: var(--mid); line-height: 1.85; font-weight: 300; margin-bottom: 20px; }
+  .cs-section p:last-child { margin-bottom: 0; }
+
+  /* pull quote */
+  .pull {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.45; letter-spacing: -0.01em;
+    color: var(--ink); font-weight: 400;
+    border-left: 2px solid var(--ink);
+    padding-left: 24px;
+    margin: 32px 0;
+  }
+
+  /* stats */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); border-radius: 10px;
+    overflow: hidden; margin: 32px 0;
+  }
+  .stat-cell { background: var(--white); padding: 28px 22px; }
+  .stat-n {
+    font-family: var(--serif); font-size: 42px; line-height: 1;
+    letter-spacing: -0.02em; color: var(--ink); font-weight: 400;
+    margin-bottom: 6px;
+  }
+  .stat-l { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* outcome cards */
+  .outcome-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); border-radius: 10px;
+    overflow: hidden; margin: 32px 0;
+  }
+  .outcome-cell { background: var(--white); padding: 32px 24px; }
+  .outcome-n {
+    font-family: var(--serif); font-size: 48px; line-height: 1;
+    letter-spacing: -0.03em; color: var(--ink); font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .outcome-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+  }
+  .outcome-desc { font-size: 13px; color: var(--mid); line-height: 1.65; font-weight: 300; }
+
+  /* deliverable list */
+  .del-list { display: flex; flex-direction: column; margin: 0; }
+  .del-item {
+    display: grid; grid-template-columns: 32px 1fr;
+    gap: 24px; padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .del-item:first-child { padding-top: 0; }
+  .del-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .del-n { font-size: 12px; font-weight: 500; color: var(--muted); padding-top: 2px; }
+  .del-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .del-body { font-size: 14px; color: var(--mid); line-height: 1.75; font-weight: 300; margin-bottom: 10px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    font-size: 11px; font-weight: 500; padding: 3px 10px;
+    border-radius: 4px; background: var(--tag-bg); color: var(--mid);
+  }
+
+  /* process steps */
+  .process-list { display: flex; flex-direction: column; }
+  .process-item {
+    display: grid; grid-template-columns: 140px 1fr;
+    gap: 40px; padding: 36px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .process-item:first-child { padding-top: 0; }
+  .process-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .process-phase {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--muted); padding-top: 4px;
+  }
+  .process-title { font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.01em; }
+
+  /* quote blocks */
+  .quote-set { display: flex; flex-direction: column; gap: 20px; margin: 32px 0; }
+  .quote-card {
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: 10px; padding: 28px 28px 28px 32px;
+    border-left: 3px solid var(--rule);
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 24px; align-items: center;
+  }
+  .quote-text {
+    font-family: var(--serif); font-size: 16px; font-style: italic;
+    line-height: 1.6; color: var(--ink); font-weight: 400; margin: 0;
+  }
+  .quote-attr { font-size: 12px; color: var(--muted); margin-top: 10px; font-style: normal; font-family: var(--sans); }
+  .quote-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--tag-bg); display: flex; align-items: center;
+    justify-content: center; font-size: 18px; flex-shrink: 0;
+    border: 1px solid var(--rule);
+  }
+
+  /* hypothesis / now-later */
+  .focus-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); border-radius: 10px;
+    overflow: hidden; margin: 32px 0;
+  }
+  .focus-cell { background: var(--white); padding: 28px 24px; }
+  .focus-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+  }
+  .focus-cell ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .focus-cell li { font-size: 14px; color: var(--mid); font-weight: 300; padding-left: 16px; position: relative; }
+  .focus-cell li::before { content: '—'; position: absolute; left: 0; color: var(--muted); }
+
+  /* closing cta */
+  .cta-block {
+    background: var(--ink); color: #fff;
+    border-radius: 12px; padding: 48px;
+    margin-top: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .cta-block h3 { font-family: var(--serif); font-size: 24px; color: #fff; margin-bottom: 6px; font-weight: 400; }
+  .cta-block p { color: rgba(255,255,255,0.6); font-size: 14px; margin: 0; }
+  .cta-link {
+    font-size: 14px; font-weight: 500;
+    background: #fff; color: var(--ink);
+    padding: 12px 28px; border-radius: 8px;
+    text-decoration: none; white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .cta-link:hover { opacity: 0.88; }
+
+  /* responsive */
+  @media (max-width: 800px) {
+    .page { padding-left: 24px; padding-right: 24px; }
+    .content-wrap { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .meta-grid { grid-template-columns: repeat(2, 1fr); }
+    .meta-cell:nth-child(2) { border-right: none; }
+    .meta-cell:nth-child(3), .meta-cell:nth-child(4), .meta-cell:nth-child(5) { border-top: 1px solid var(--rule); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .outcome-row { grid-template-columns: 1fr; }
+    .process-item { grid-template-columns: 1fr; gap: 8px; }
+    .focus-grid { grid-template-columns: 1fr; }
+    .quote-card { grid-template-columns: 1fr; }
+    .quote-avatar { display: none; }
+    .cta-block { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img class="nav-logo-icon" src="images/favicon/favicon.png" alt="">
+      Chrisyang
+    </a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger">
+          Works
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-dropdown-menu">
+          <a href="platform.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Platform design</span></a>
+          <a href="apps.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">App design</span></a>
+          <a href="branding.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Branding</span></a>
+          <a href="assessment.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Assessment</span></a>
+          <a href="saas-design.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">SaaS Design</span></a>
+        </div>
+      </div>
+      <a href="https://drive.google.com/file/d/1PKk_yvtjGGQ4_b9qK4UiG_FFVXlT4Xbw/view?usp=sharing" target="_blank" class="nav-resume">Resume</a>
+      <a href="contact.html" class="nav-cta">Say Hello</a>
+    </div>
+    <div class="nav-mobile-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+
+  <a href="index.html" class="back-home-link">← Back To Home Page</a>
+
+  <!-- HERO -->
+  <header class="case-hero">
+    <div class="case-hero-eyebrow">SaaS Design · B2B Finance Platform</div>
+    <h1>Redesigning Revenue Recovery at Scale</h1>
+    <p class="case-hero-sub">How a unified invoicing experience helped Sodexo reclaim $4.5M in manual revenue and return 202 hours annually to finance teams.</p>
+    <img class="case-hero-img" src="images/secret/secret-hero3.png" alt="SaaS Design Hero">
+    <div class="meta-grid">
+      <div class="meta-cell"><div class="meta-label">My Role</div><div class="meta-value">Senior Product Designer</div></div>
+      <div class="meta-cell"><div class="meta-label">Team</div><div class="meta-value">30+ across PM, Engineering, QA & India dev team</div></div>
+      <div class="meta-cell"><div class="meta-label">Platform</div><div class="meta-value">RevUp / CaRMA — iTradeNetwork</div></div>
+      <div class="meta-cell"><div class="meta-label">Duration</div><div class="meta-value">Jan – Jun 2026</div></div>
+      <div class="meta-cell"><div class="meta-label">Status</div><div class="meta-value">Live — 2 releases shipped</div></div>
+    </div>
+  </header>
+
+  <!-- CONTENT WRAP -->
+  <div class="content-wrap">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-label">On this page</div>
+      <nav class="sidebar-nav">
+        <a href="#problem" class="active">The problem</a>
+        <a href="#discovery">Discovery</a>
+        <a href="#focus">Strategic focus</a>
+        <a href="#delivered">What we delivered</a>
+        <a href="#process">Design process</a>
+        <a href="#outcomes">Outcomes</a>
+        <a href="#closing">Closing</a>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- PROBLEM -->
+      <section class="cs-section" id="problem">
+        <div class="section-kicker">The Problem</div>
+        <h2>The invoice reconciliation process was <em>broken</em></h2>
+        <div class="pull">Recovering missed VDA revenue was entirely manual — too slow, too inconsistent, and leaving millions on the table.</div>
+        <p>Sodexo's finance teams had no system to detect or prioritize missed rebates. Triggered by missing spend, contract changes, and product additions, teams spent hundreds of hours every month on a process that didn't scale — with no visibility into what was recoverable and no consistency across branches.</p>
+        <p>The risk wasn't just inefficiency. It was uncollected revenue, audit exposure, and an operations team stretched past capacity — every single month.</p>
+        <div class="stats-grid">
+          <div class="stat-cell">
+            <div class="stat-n">$4.5M</div>
+            <div class="stat-l">in recoverable revenue processed manually</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n">~1 hr</div>
+            <div class="stat-l">of manual effort per invoice</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n">118×</div>
+            <div class="stat-l">max invoices run in a single month</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-n">~242</div>
+            <div class="stat-l">total hours spent across all invoices monthly</div>
+          </div>
+        </div>
+        <p>RevUP's invoice platform is a textbook case of system-centered design: dense data grids, no visual hierarchy, and inconsistent UI patterns across the VDA Calculation and Invoice flows leave users disoriented at every step. Status visibility is buried, financial actions lack error prevention, and the cognitive load makes mistakes inevitable.</p>
+        <div class="case-img-block">
+          <img src="images/saas-design/problem-vda-calculation.png" alt="VDA Calculation legacy screen">
+          <p class="case-img-caption">VDA Calculation: dense, unprioritized grids with no visual hierarchy between records.</p>
+        </div>
+        <div class="case-img-block">
+          <img src="images/saas-design/problem-allowance-summary.png" alt="Allowance Summary legacy screen">
+          <p class="case-img-caption">Allowance Summary: status, thresholds, and financial actions compete for attention with no clear priority.</p>
+        </div>
+        <div class="case-img-block">
+          <img src="images/saas-design/problem-monthly-invoice.png" alt="Monthly Invoice legacy screen">
+          <p class="case-img-caption">Monthly Invoice: a static, unstructured document view disconnected from the calculation data behind it.</p>
+        </div>
+      </section>
+
+      <!-- DISCOVERY -->
+      <section class="cs-section" id="discovery">
+        <div class="section-kicker">Discovery</div>
+        <h2>Understanding the <em>real</em> workflow</h2>
+        <p>Before any design work began, I embedded with Sodexo finance users and internal ops teams to map how invoices actually moved through the business. The core finding wasn't a bad UI — it was a complete absence of system awareness around what was missing.</p>
+        <p>Users were doing detective work every month with no tools to help. Reconciliation lived in spreadsheets. Priorities were set by gut feel. And the language teams used to describe "invoice period" didn't match what the system actually meant — producing incorrect audit outputs without anyone realizing it.</p>
+
+        <div class="quote-set">
+          <div class="quote-card">
+            <div>
+              <p class="quote-text">"We spend more time figuring out what we're missing than actually fixing it. There's no system that tells us where to look."</p>
+              <div class="quote-attr">— Sodexo Finance Analyst</div>
+            </div>
+            <div class="quote-avatar">💼</div>
+          </div>
+          <div class="quote-card">
+            <div>
+              <p class="quote-text">"Everything lives in Excel. We have no idea if what we're looking at matches what the platform calculated."</p>
+              <div class="quote-attr">— Operations Lead</div>
+            </div>
+            <div class="quote-avatar">📊</div>
+          </div>
+          <div class="quote-card">
+            <div>
+              <p class="quote-text">"When the invoice period filter gives wrong results, we don't catch it until reconciliation — sometimes weeks later."</p>
+              <div class="quote-attr">— Business Analyst</div>
+            </div>
+            <div class="quote-avatar">🔍</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STRATEGIC FOCUS -->
+      <section class="cs-section" id="focus">
+        <div class="section-kicker">Strategic Focus</div>
+        <h2>Better quickly, <em>not perfect</em> later</h2>
+        <p>Fixing the VDA invoice process could go many directions. With an Agile mindset and an objective of publishing value quickly, the goal was to determine where we could provide the most impact with the least friction — and park everything else without abandoning it.</p>
+        <div class="focus-grid">
+          <div class="focus-cell">
+            <div class="focus-label">Now — focused effort</div>
+            <ul>
+              <li>13-month rolling invoice visibility</li>
+              <li>Auto 6-month POS catch-up</li>
+              <li>VDA calculation & invoice alignment</li>
+              <li>Supplemental month manual control</li>
+              <li>7-year history via API</li>
+            </ul>
+          </div>
+          <div class="focus-cell">
+            <div class="focus-label">Later — parked, not abandoned</div>
+            <ul>
+              <li>Split invoice business segment filter</li>
+              <li>GPO roll-up grouping scenarios</li>
+              <li>Advanced multi-period picker component</li>
+              <li>Cross-branch reconciliation views</li>
+            </ul>
+          </div>
+        </div>
+        <p>This framing — based on Lean UX hypothesis prioritization — gave the broader stakeholder team a clear view of what we were building toward and why certain things were intentionally deferred.</p>
+      </section>
+
+      <!-- WHAT WE DELIVERED -->
+      <section class="cs-section" id="delivered">
+        <div class="section-kicker">What We Delivered</div>
+        <h2>Five capabilities that changed <em>the workflow</em></h2>
+        <div class="del-list">
+          <div class="del-item">
+            <div class="del-n">01</div>
+            <div>
+              <div class="del-title">13-month invoice visibility</div>
+              <p class="del-body">A rolling view of all billing activity giving finance teams a continuous, uninterrupted window into invoices without manually pulling reports. Nothing falls through the cracks.</p>
+              <div class="chips"><span class="chip">Invoice module</span></div>
+            </div>
+          </div>
+          <div class="del-item">
+            <div class="del-n">02</div>
+            <div>
+              <div class="del-title">Auto 6-month catch-up</div>
+              <p class="del-body">Late POS data is automatically reconciled against prior periods — eliminating the manual tracking that previously required a dedicated ops effort every billing cycle.</p>
+              <div class="chips"><span class="chip">Automation</span></div>
+            </div>
+          </div>
+          <div class="del-item">
+            <div class="del-n">03</div>
+            <div>
+              <div class="del-title">Supplemental month control</div>
+              <p class="del-body">Manual inclusion for months 7–12 gives teams full flexibility to handle edge cases without workarounds — designed around how Sodexo already thought about billing periods.</p>
+              <div class="chips"><span class="chip">Invoice module</span><span class="chip">Flexibility</span></div>
+            </div>
+          </div>
+          <div class="del-item">
+            <div class="del-n">04</div>
+            <div>
+              <div class="del-title">VDA calculation & invoice alignment</div>
+              <p class="del-body">Calculation and Invoice tabs designed in sync — same data model, same terminology, same filters — so reconciliation errors caused by mismatched views were eliminated by design, not by process.</p>
+              <div class="chips"><span class="chip">Accuracy</span><span class="chip">Cross-module</span></div>
+            </div>
+          </div>
+          <div class="del-item">
+            <div class="del-n">05</div>
+            <div>
+              <div class="del-title">7-year invoice history via API</div>
+              <p class="del-body">Full invoice history — accessible, auditable, and scalable. Multi-period filtering by Invoice Period (not Created Month) lets users run non-contiguous, multi-year audits in a single view. A critical capability restored after it was lost in the platform rewrite.</p>
+              <div class="chips"><span class="chip">Legacy invoices</span><span class="chip">May release</span><span class="chip">Audit</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROCESS -->
+      <section class="cs-section" id="process">
+        <div class="section-kicker">Design Process</div>
+        <h2>Designing for trust, <em>not just usability</em></h2>
+        <p>Finance users don't just need a usable interface — they need to trust the data they're looking at. That became the design principle that guided every decision across the module.</p>
+        <div class="process-list">
+          <div class="process-item">
+            <div class="process-phase">Discovery</div>
+            <div>
+              <div class="process-title">Mapping the real workflow before touching a screen</div>
+              <p>I embedded with Sodexo finance users and ops teams to understand how invoices actually moved through the business. Stakeholder interviews and workflow mapping revealed that the biggest pain was upstream of any UI — there was no system awareness of what was missing, making reconciliation a monthly detective job.</p>
+            </div>
+          </div>
+          <div class="process-item">
+            <div class="process-phase">Definition</div>
+            <div>
+              <div class="process-title">Translating billing logic into UX decisions</div>
+              <p>Finance domain complexity required deep collaboration with SMEs. Concepts like "Invoice Period vs. Created Month" weren't just terminology choices — getting them wrong in filter design produced incorrect audit outputs. I authored detailed acceptance criteria alongside UX specs to close the gap between design intent and implementation.</p>
+            </div>
+          </div>
+          <div class="process-item">
+            <div class="process-phase">Design</div>
+            <div>
+              <div class="process-title">Conservative choices that build confidence</div>
+              <p>Design decisions were deliberately considered: consistent column structures between grid and CSV export, explicit period labels, disabled states that explain <em>why</em> something is unavailable rather than just greying it out, and microcopy written to reduce cognitive load. Every tooltip was a trust signal, not just a label.</p>
+            </div>
+          </div>
+          <div class="process-item">
+            <div class="process-phase">Delivery</div>
+            <div>
+              <div class="process-title">Staying in the build until it shipped right</div>
+              <p>I worked closely with engineering through implementation — reviewing builds for design fidelity, flagging regressions before QA, and updating specs in real time as edge cases surfaced. Post-launch, I tracked support ticket patterns to identify friction that didn't show up in testing.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- OUTCOMES -->
+      <section class="cs-section" id="outcomes">
+        <div class="section-kicker">Outcomes</div>
+        <h2>Fewer missed rebates. <em>Cleaner audits.</em> More reliable invoices.</h2>
+        <div class="outcome-row">
+          <div class="outcome-cell">
+            <div class="outcome-label">Time saved per invoice</div>
+            <div class="outcome-n">~50 min</div>
+            <p class="outcome-desc">85% faster per billing cycle. Finance teams moved from an hour of manual reconciliation to a 10-minute review.</p>
+          </div>
+          <div class="outcome-cell">
+            <div class="outcome-label">Hours returned annually</div>
+            <div class="outcome-n">~202 hrs</div>
+            <p class="outcome-desc">Across 242 invoices per year — equivalent to over a full month of capacity given back to the team.</p>
+          </div>
+          <div class="outcome-cell">
+            <div class="outcome-label">FTE capacity freed</div>
+            <div class="outcome-n">~5 wks</div>
+            <p class="outcome-desc">Of full-time work freed annually, allowing the ops team to redirect effort toward higher-value reconciliation work.</p>
+          </div>
+        </div>
+
+        <div class="quote-set">
+          <div class="quote-card">
+            <div>
+              <p class="quote-text">"The design work on RevUP didn't just improve a screen — it changed how our team thinks about invoice reconciliation. For the first time, we're operating proactively instead of reactively."</p>
+              <div class="quote-attr">— Sodexo Finance Operations · Internal feedback, 2025</div>
+            </div>
+            <div class="quote-avatar">⭐</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CLOSING -->
+      <section class="cs-section" id="closing">
+        <div class="section-kicker">Closing</div>
+        <h2>Enterprise finance teams deserve <em>better tools</em></h2>
+        <p>The operations teams running these invoices aren't asking for innovation — they're asking for reliability. A system that tells them what's missing, shows them the right data, and doesn't make them second-guess whether the filter they applied means what they think it means.</p>
+        <p>That's what this project was about. Not a flashy redesign — a deliberate, domain-specific product experience that reduced friction, built trust, and gave people time back. That's the kind of design work I find most meaningful.</p>
+      </section>
+
+      <!-- CTA -->
+      <div class="cta-block">
+        <div>
+          <h3>Interested in working together?</h3>
+          <p>I'm open to senior product design roles in B2B SaaS, enterprise tools, and complex data-heavy domains.</p>
+        </div>
+        <a href="mailto:chris.yang.design@gmail.com" class="cta-link">Get in touch →</a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-copy">©2023. All rights reserved. Created by <a href="mailto:Chris.yang.design@gmail.com">Chris Yang</a></p>
+    <div class="footer-links">
+      <a href="https://drive.google.com/file/d/1C6L22A_inPMwB6SXOAL65EUYt7ZPldAD/view?usp=sharing" target="_blank">Resume</a>
+      <a href="contact.html">Say Hello</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  const sections = document.querySelectorAll('.cs-section');
+  const links = document.querySelectorAll('.sidebar-nav a');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar-nav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>
