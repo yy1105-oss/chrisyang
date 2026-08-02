@@ -52,6 +52,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // ── Scroll reveal for case-study content ──
+  const revealEls = document.querySelectorAll('.case-section, .cs-section');
+  if (revealEls.length) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+  }
+
   // ── Contact form (Formspree) ──
   const form = document.getElementById('contact-form');
   if (form) {

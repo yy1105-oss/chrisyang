@@ -265,11 +265,11 @@
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="nav-dropdown-menu">
+          <a href="saas-design.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">SaaS Design</span></a>
           <a href="platform.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Platform design</span></a>
           <a href="apps.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">App design</span></a>
           <a href="branding.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Branding</span></a>
           <a href="assessment.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Assessment</span></a>
-          <a href="saas-design.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">SaaS Design</span></a>
         </div>
       </div>
       <a href="https://drive.google.com/file/d/1PKk_yvtjGGQ4_b9qK4UiG_FFVXlT4Xbw/view?usp=sharing" target="_blank" class="nav-resume">Resume</a>
@@ -313,7 +313,6 @@
         <a href="#delivered">What we delivered</a>
         <a href="#process">Design process</a>
         <a href="#outcomes">Outcomes</a>
-        <a href="#closing">Closing</a>
       </nav>
     </aside>
 
@@ -345,18 +344,9 @@
             <div class="stat-l">total hours spent across all invoices monthly</div>
           </div>
         </div>
-        <p>RevUP's invoice platform is a textbook case of system-centered design: dense data grids, no visual hierarchy, and inconsistent UI patterns across the VDA Calculation and Invoice flows leave users disoriented at every step. Status visibility is buried, financial actions lack error prevention, and the cognitive load makes mistakes inevitable.</p>
         <div class="case-img-block">
-          <img src="images/saas-design/problem-vda-calculation.png" alt="VDA Calculation legacy screen">
-          <p class="case-img-caption">VDA Calculation: dense, unprioritized grids with no visual hierarchy between records.</p>
-        </div>
-        <div class="case-img-block">
-          <img src="images/saas-design/problem-allowance-summary.png" alt="Allowance Summary legacy screen">
-          <p class="case-img-caption">Allowance Summary: status, thresholds, and financial actions compete for attention with no clear priority.</p>
-        </div>
-        <div class="case-img-block">
-          <img src="images/saas-design/problem-monthly-invoice.png" alt="Monthly Invoice legacy screen">
-          <p class="case-img-caption">Monthly Invoice: a static, unstructured document view disconnected from the calculation data behind it.</p>
+          <img class="lightbox-trigger" data-lightbox-group="problem" src="images/saas-design/problem-heuristic-eval.png" alt="Heuristic evaluation of the RevUP invoice module">
+          <p class="case-img-caption">Click to view full size.</p>
         </div>
       </section>
 
@@ -390,6 +380,10 @@
             <div class="quote-avatar">🔍</div>
           </div>
         </div>
+        <div class="case-img-block">
+          <img class="lightbox-trigger" data-lightbox-group="discovery" src="images/saas-design/discovery-persona-robert.png" alt="User persona: Robert, Category Manager">
+          <p class="case-img-caption">Robert, Category Manager — one of the primary personas built from these interviews.</p>
+        </div>
       </section>
 
       <!-- STRATEGIC FOCUS -->
@@ -419,6 +413,10 @@
           </div>
         </div>
         <p>This framing — based on Lean UX hypothesis prioritization — gave the broader stakeholder team a clear view of what we were building toward and why certain things were intentionally deferred.</p>
+        <div class="case-img-block">
+          <img class="lightbox-trigger" data-lightbox-group="focus" src="images/saas-design/focus-flow-user.png" alt="Invoice module flow diagram">
+          <p class="case-img-caption">The invoice module flow mapped end-to-end, from contract effective date through release or stop.</p>
+        </div>
       </section>
 
       <!-- WHAT WE DELIVERED -->
@@ -504,6 +502,13 @@
             </div>
           </div>
         </div>
+        <div class="slideshow-grid">
+          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/1-vda-calculation.png" alt="VDA Calculation screen">
+          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/2-pre-invoice.png" alt="Pre-Invoice screen">
+          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/3-point-of-sale.png" alt="Point of Sale screen">
+          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/4-past-13-months.png" alt="Past 13 Months catch-up screen">
+          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/5-view-pdf.png" alt="View Invoice PDF screen">
+        </div>
       </section>
 
       <!-- OUTCOMES -->
@@ -537,14 +542,6 @@
             <div class="quote-avatar">⭐</div>
           </div>
         </div>
-      </section>
-
-      <!-- CLOSING -->
-      <section class="cs-section" id="closing">
-        <div class="section-kicker">Closing</div>
-        <h2>Enterprise finance teams deserve <em>better tools</em></h2>
-        <p>The operations teams running these invoices aren't asking for innovation — they're asking for reliability. A system that tells them what's missing, shows them the right data, and doesn't make them second-guess whether the filter they applied means what they think it means.</p>
-        <p>That's what this project was about. Not a flashy redesign — a deliberate, domain-specific product experience that reduced friction, built trust, and gave people time back. That's the kind of design work I find most meaningful.</p>
       </section>
 
       <!-- CTA -->
@@ -585,6 +582,60 @@
     });
   }, { rootMargin: '-20% 0px -70% 0px' });
   sections.forEach(s => obs.observe(s));
+</script>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+</div>
+<script>
+  (function () {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = lightbox.querySelector('.lightbox-close');
+    const prevBtn = lightbox.querySelector('.lightbox-prev');
+    const nextBtn = lightbox.querySelector('.lightbox-next');
+    let group = [];
+    let index = 0;
+
+    function render() {
+      lightboxImg.src = group[index].src;
+      lightboxImg.alt = group[index].alt;
+      const multi = group.length > 1;
+      prevBtn.classList.toggle('lightbox-nav-hidden', !multi);
+      nextBtn.classList.toggle('lightbox-nav-hidden', !multi);
+    }
+    function open(groupName, startEl) {
+      group = Array.from(document.querySelectorAll('[data-lightbox-group="' + groupName + '"]'));
+      index = group.indexOf(startEl);
+      render();
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function next() { index = (index + 1) % group.length; render(); }
+    function prev() { index = (index - 1 + group.length) % group.length; render(); }
+
+    document.querySelectorAll('.lightbox-trigger').forEach(function (el) {
+      el.addEventListener('click', function () { open(el.dataset.lightboxGroup, el); });
+    });
+    closeBtn.addEventListener('click', close);
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    });
+  })();
 </script>
 
 </body>
