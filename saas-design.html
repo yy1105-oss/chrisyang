@@ -212,11 +212,21 @@
   .focus-cell li { font-size: 14px; color: var(--mid); font-weight: 300; padding-left: 16px; position: relative; }
   .focus-cell li::before { content: '—'; position: absolute; left: 0; color: var(--muted); }
 
-  /* heuristic findings */
-  .heuristic-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 24px 0 0; }
-  .heuristic-list li { font-size: 14px; color: var(--mid); font-weight: 300; line-height: 1.6; padding-left: 18px; position: relative; }
-  .heuristic-list li::before { content: '—'; position: absolute; left: 0; color: var(--muted); }
-  .heuristic-list strong { color: var(--ink); font-weight: 500; }
+  /* heuristic chart */
+  .heuristic-chart { margin: 24px 0 0; border: 1px solid var(--rule); border-radius: 10px; padding: 16px 16px 4px; background: var(--white); }
+  .heuristic-chart-svg { width: 100%; height: auto; display: block; }
+  .chart-grid { fill: none; stroke: var(--rule); stroke-width: 1; }
+  .chart-spoke { stroke: var(--rule); stroke-width: 1; }
+  .chart-area { stroke-linejoin: round; }
+  .chart-area-total { fill: rgba(42,181,181,0.12); stroke: #2ab5b5; stroke-width: 1.5; }
+  .chart-area-critical { fill: rgba(31,148,148,0.38); stroke: #1f9494; stroke-width: 2; }
+  .chart-label { font-size: 11px; fill: var(--muted); }
+  .chart-scale { font-size: 10px; fill: var(--muted); }
+  .chart-legend { display: flex; justify-content: center; gap: 24px; padding: 12px 0 16px; }
+  .chart-legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--mid); }
+  .chart-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .chart-swatch-total { background: rgba(42,181,181,0.4); border: 1.5px solid #2ab5b5; }
+  .chart-swatch-critical { background: #1f9494; }
 
   /* closing cta */
   .cta-block {
@@ -328,7 +338,7 @@
       <!-- PROBLEM -->
       <section class="cs-section" id="problem">
         <div class="section-kicker">The Problem</div>
-        <h2>The invoice reconciliation process was <em>broken</em></h2>
+        <h2>The invoice reconciliation process was broken — running on an <em>outdated, unusable</em> interface</h2>
         <div class="pull">Recovering missed VDA revenue was entirely manual — too slow, too inconsistent, and leaving millions on the table.</div>
         <p>Sodexo's finance teams had no system to detect or prioritize missed rebates. Triggered by missing spend, contract changes, and product additions, teams spent hundreds of hours every month on a process that didn't scale — with no visibility into what was recoverable and no consistency across branches.</p>
         <p>The risk wasn't just inefficiency. It was uncollected revenue, audit exposure, and an operations team stretched past capacity — every single month.</p>
@@ -351,15 +361,48 @@
           </div>
         </div>
         <div class="case-img-block">
-          <img class="lightbox-trigger" data-lightbox-group="problem" src="images/saas-design/problem-heuristic-eval.png" alt="Heuristic evaluation of the RevUP invoice module">
+          <img class="lightbox-trigger" data-lightbox-group="problem" src="images/saas-design/problem-heuristic-review.png" alt="Heuristic evaluation of the RevUP invoice module">
           <p class="case-img-caption">Click to view full size.</p>
         </div>
-        <ul class="heuristic-list">
-          <li><strong>Match between system and the real world:</strong> VDA Calculation and Invoice are treated as separate systems, not one invoice lifecycle.</li>
-          <li><strong>Recognition rather than recall:</strong> status codes and filter labels require memorization instead of being self-evident.</li>
-          <li><strong>Visibility of system status:</strong> actions on the invoice/PDF page are buried below the fold instead of visible on load.</li>
-          <li><strong>Flexibility and efficiency of use:</strong> a single "download" action branches into six near-identical sub-screens.</li>
-        </ul>
+        <div class="heuristic-chart">
+          <svg viewBox="0 0 600 500" class="heuristic-chart-svg" role="img" aria-label="Radar chart of Nielsen heuristic violations found in the legacy RevUP invoice module">
+            <polygon points="300.0,203.3 339.2,216.1 363.4,249.4 363.4,290.6 339.2,323.9 300.0,336.7 260.8,323.9 236.6,290.6 236.6,249.4 260.8,216.1" class="chart-grid"></polygon>
+            <polygon points="300.0,136.7 378.4,162.1 426.8,228.8 426.8,311.2 378.4,377.9 300.0,403.3 221.6,377.9 173.2,311.2 173.2,228.8 221.6,162.1" class="chart-grid"></polygon>
+            <polygon points="300.0,70.0 417.6,108.2 490.2,208.2 490.2,331.8 417.6,431.8 300.0,470.0 182.4,431.8 109.8,331.8 109.8,208.2 182.4,108.2" class="chart-grid"></polygon>
+            <line x1="300" y1="270" x2="300.0" y2="70.0" class="chart-spoke"></line>
+            <line x1="300" y1="270" x2="417.6" y2="108.2" class="chart-spoke"></line>
+            <line x1="300" y1="270" x2="490.2" y2="208.2" class="chart-spoke"></line>
+            <line x1="300" y1="270" x2="490.2" y2="331.8" class="chart-spoke"></line>
+            <line x1="300" y1="270" x2="417.6" y2="431.8" class="chart-spoke"></line>
+            <line x1="300" y1="270" x2="300.0" y2="470.0" class="chart-spoke"></line>
+            <line x1="300" y1="270" x2="182.4" y2="431.8" class="chart-spoke"></line>
+            <line x1="300" y1="270" x2="109.8" y2="331.8" class="chart-spoke"></line>
+            <line x1="300" y1="270" x2="109.8" y2="208.2" class="chart-spoke"></line>
+            <line x1="300" y1="270" x2="182.4" y2="108.2" class="chart-spoke"></line>
+
+            <polygon points="300.0,70.0 378.4,162.1 426.8,228.8 426.8,311.2 378.4,377.9 300.0,470.0 221.6,377.9 173.2,311.2 236.6,249.4 260.8,216.1" class="chart-area chart-area-total"></polygon>
+            <polygon points="300.0,136.7 339.2,216.1 363.4,249.4 363.4,290.6 339.2,323.9 300.0,403.3 260.8,323.9 236.6,290.6 300.0,270.0 300.0,270.0" class="chart-area chart-area-critical"></polygon>
+
+            <text x="308" y="140" class="chart-scale">1</text>
+            <text x="308" y="206.6" class="chart-scale">2</text>
+            <text x="308" y="273.3" class="chart-scale">3</text>
+
+            <text x="300.0" y="30" text-anchor="middle" class="chart-label"><tspan x="300.0" dy="0">Visibility of</tspan><tspan x="300.0" dy="14">System Status</tspan></text>
+            <text x="436.4" y="74.3" text-anchor="start" class="chart-label"><tspan x="436.4" dy="0">Match to</tspan><tspan x="436.4" dy="14">Real World</tspan></text>
+            <text x="520.6" y="190.3" text-anchor="start" class="chart-label"><tspan x="520.6" dy="0">User Control</tspan><tspan x="520.6" dy="14">&amp; Freedom</tspan></text>
+            <text x="520.6" y="333.7" text-anchor="start" class="chart-label"><tspan x="520.6" dy="0">Consistency</tspan><tspan x="520.6" dy="14">&amp; Standards</tspan></text>
+            <text x="436.4" y="449.7" text-anchor="start" class="chart-label"><tspan x="436.4" dy="0">Error</tspan><tspan x="436.4" dy="14">Prevention</tspan></text>
+            <text x="300.0" y="494" text-anchor="middle" class="chart-label"><tspan x="300.0" dy="0">Recognition</tspan><tspan x="300.0" dy="14">&gt; Recall</tspan></text>
+            <text x="163.6" y="449.7" text-anchor="end" class="chart-label"><tspan x="163.6" dy="0">Flexibility &amp;</tspan><tspan x="163.6" dy="14">Efficiency</tspan></text>
+            <text x="79.4" y="333.7" text-anchor="end" class="chart-label"><tspan x="79.4" dy="0">Aesthetic &amp;</tspan><tspan x="79.4" dy="14">Minimalist</tspan></text>
+            <text x="79.4" y="190.3" text-anchor="end" class="chart-label"><tspan x="79.4" dy="0">Error Recovery</tspan><tspan x="79.4" dy="14">Help</tspan></text>
+            <text x="163.6" y="74.3" text-anchor="end" class="chart-label"><tspan x="163.6" dy="0">Help &amp;</tspan><tspan x="163.6" dy="14">Documentation</tspan></text>
+          </svg>
+          <div class="chart-legend">
+            <span class="chart-legend-item"><span class="chart-swatch chart-swatch-total"></span>All issues found (20)</span>
+            <span class="chart-legend-item"><span class="chart-swatch chart-swatch-critical"></span>Critical (10)</span>
+          </div>
+        </div>
       </section>
 
       <!-- DISCOVERY -->
@@ -511,15 +554,29 @@
             <div>
               <div class="process-title">Staying in the build until it shipped right</div>
               <p>I worked closely with engineering through implementation — reviewing builds for design fidelity, flagging regressions before QA, and updating specs in real time as edge cases surfaced. Post-launch, I tracked support ticket patterns to identify friction that didn't show up in testing.</p>
+              <p>The shipped UI was a massive step up from the legacy screens: VDA Calculation and Invoice now share one coherent information architecture, so users navigate a single connected flow instead of two disjointed systems. Status, filters, and key figures are surfaced clearly enough to be perceived at a glance — not decoded.</p>
             </div>
           </div>
         </div>
-        <div class="slideshow-grid">
-          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/1-vda-calculation.png" alt="VDA Calculation screen">
-          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/2-pre-invoice.png" alt="Pre-Invoice screen">
-          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/3-point-of-sale.png" alt="Point of Sale screen">
-          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/4-past-13-months.png" alt="Past 13 Months catch-up screen">
-          <img class="slideshow-thumb lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/5-view-pdf.png" alt="View Invoice PDF screen">
+        <div class="slideshow" id="processSlideshow">
+          <div class="slideshow-slides">
+            <img class="slideshow-slide lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/1-vda-calculation.png" alt="VDA Calculation screen">
+            <img class="slideshow-slide lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/2-pre-invoice.png" alt="Pre-Invoice screen">
+            <img class="slideshow-slide lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/3-point-of-sale.png" alt="Point of Sale screen">
+            <img class="slideshow-slide lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/3a-pos-detail.png" alt="Raw POS detail modal">
+            <img class="slideshow-slide lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/4-past-13-months.png" alt="Past 13 Months catch-up screen">
+            <img class="slideshow-slide lightbox-trigger" data-lightbox-group="process-slideshow" src="images/saas-design/slideshow/5-view-pdf.png" alt="View Invoice PDF screen">
+          </div>
+          <button class="slideshow-arrow slideshow-prev" aria-label="Previous slide">&#10094;</button>
+          <button class="slideshow-arrow slideshow-next" aria-label="Next slide">&#10095;</button>
+          <div class="slideshow-dots">
+            <span class="slideshow-dot" data-index="0" aria-label="Slide 1"></span>
+            <span class="slideshow-dot" data-index="1" aria-label="Slide 2"></span>
+            <span class="slideshow-dot" data-index="2" aria-label="Slide 3"></span>
+            <span class="slideshow-dot" data-index="3" aria-label="Slide 4"></span>
+            <span class="slideshow-dot" data-index="4" aria-label="Slide 5"></span>
+            <span class="slideshow-dot" data-index="5" aria-label="Slide 6"></span>
+          </div>
         </div>
       </section>
 
@@ -647,6 +704,29 @@
       if (e.key === 'ArrowRight') next();
       if (e.key === 'ArrowLeft') prev();
     });
+  })();
+</script>
+
+<!-- PROCESS SLIDESHOW -->
+<script>
+  (function () {
+    const container = document.getElementById('processSlideshow');
+    if (!container) return;
+    const slides = container.querySelectorAll('.slideshow-slide');
+    const dots = container.querySelectorAll('.slideshow-dot');
+    const prevBtn = container.querySelector('.slideshow-prev');
+    const nextBtn = container.querySelector('.slideshow-next');
+    let current = 1; // default: 2-pre-invoice.png
+
+    function show(i) {
+      current = (i + slides.length) % slides.length;
+      slides.forEach(function (s, idx) { s.classList.toggle('active', idx === current); });
+      dots.forEach(function (d, idx) { d.classList.toggle('active', idx === current); });
+    }
+    prevBtn.addEventListener('click', function () { show(current - 1); });
+    nextBtn.addEventListener('click', function () { show(current + 1); });
+    dots.forEach(function (d, idx) { d.addEventListener('click', function () { show(idx); }); });
+    show(current);
   })();
 </script>
 

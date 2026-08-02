@@ -474,22 +474,66 @@ a { color: inherit; text-decoration: none; }
 .lightbox-next { right: 24px; top: 50%; transform: translateY(-50%); }
 .lightbox-nav-hidden { display: none; }
 
-/* ── SLIDESHOW THUMBNAILS ── */
-.slideshow-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+/* ── SLIDESHOW ── */
+.slideshow {
+  position: relative;
   margin: 32px 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--mid-gray);
+  background: #eeeeee;
 }
-.slideshow-thumb {
+.slideshow-slides {
+  position: relative;
   width: 100%;
   aspect-ratio: 16/9;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid var(--mid-gray);
-  transition: opacity var(--transition);
+  background: #eeeeee;
 }
-.slideshow-thumb:hover { opacity: 0.85; }
+.slideshow-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.slideshow-slide.active { opacity: 1; pointer-events: auto; cursor: zoom-in; }
+.slideshow-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.35);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  transition: background var(--transition);
+}
+.slideshow-arrow:hover { background: rgba(0,0,0,0.55); }
+.slideshow-prev { left: 14px; }
+.slideshow-next { right: 14px; }
+.slideshow-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 0;
+  background: #eeeeee;
+}
+.slideshow-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--mid-gray);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.slideshow-dot.active { background: var(--text-dark); }
 
 .case-divider {
   border: none;
@@ -701,7 +745,6 @@ a { color: inherit; text-decoration: none; }
   .case-hero { padding: 48px 0 36px; }
   .contact-hero { padding: 48px 0 36px; }
   .cta-block { flex-direction: column; align-items: flex-start; }
-  .slideshow-grid { grid-template-columns: 1fr; }
   .lightbox { padding: 24px; }
   .lightbox-prev, .lightbox-next { width: 36px; height: 36px; font-size: 1.25rem; }
 }
