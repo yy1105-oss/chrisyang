@@ -212,6 +212,12 @@
   .focus-cell li { font-size: 14px; color: var(--mid); font-weight: 300; padding-left: 16px; position: relative; }
   .focus-cell li::before { content: '—'; position: absolute; left: 0; color: var(--muted); }
 
+  /* heuristic findings */
+  .heuristic-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 24px 0 0; }
+  .heuristic-list li { font-size: 14px; color: var(--mid); font-weight: 300; line-height: 1.6; padding-left: 18px; position: relative; }
+  .heuristic-list li::before { content: '—'; position: absolute; left: 0; color: var(--muted); }
+  .heuristic-list strong { color: var(--ink); font-weight: 500; }
+
   /* closing cta */
   .cta-block {
     background: var(--ink); color: #fff;
@@ -348,6 +354,12 @@
           <img class="lightbox-trigger" data-lightbox-group="problem" src="images/saas-design/problem-heuristic-eval.png" alt="Heuristic evaluation of the RevUP invoice module">
           <p class="case-img-caption">Click to view full size.</p>
         </div>
+        <ul class="heuristic-list">
+          <li><strong>Match between system and the real world:</strong> VDA Calculation and Invoice are treated as separate systems, not one invoice lifecycle.</li>
+          <li><strong>Recognition rather than recall:</strong> status codes and filter labels require memorization instead of being self-evident.</li>
+          <li><strong>Visibility of system status:</strong> actions on the invoice/PDF page are buried below the fold instead of visible on load.</li>
+          <li><strong>Flexibility and efficiency of use:</strong> a single "download" action branches into six near-identical sub-screens.</li>
+        </ul>
       </section>
 
       <!-- DISCOVERY -->
