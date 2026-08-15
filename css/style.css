@@ -225,8 +225,17 @@ a { color: inherit; text-decoration: none; }
   color: var(--text-dark);
   line-height: 1.05;
   letter-spacing: -0.02em;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
   animation: fadeIn 0.6s 0.1s ease both;
+}
+.hero-subhead {
+  font-size: 1.125rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  max-width: 540px;
+  line-height: 1.6;
+  margin-bottom: 28px;
+  animation: fadeIn 0.6s 0.15s ease both;
 }
 .hero-meta {
   display: flex;
@@ -256,37 +265,106 @@ a { color: inherit; text-decoration: none; }
 .works-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
+  gap: 40px 32px;
   animation: fadeIn 0.6s 0.3s ease both;
 }
 .work-card {
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
-.work-card:hover { transform: translateY(-4px); }
 .work-card-img {
   width: 100%;
   aspect-ratio: 4/3;
   object-fit: cover;
   border-radius: 10px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   background: var(--light-gray);
-  opacity: 0;
-  transform: scale(1.08);
-  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  transition: box-shadow 0.3s ease;
 }
-.work-card-img.in-view { opacity: 1; transform: scale(1); }
-.work-card:nth-child(2n) .work-card-img { transition-delay: 1s; }
 .work-card:hover .work-card-img { box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+.work-card-tag {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
 .work-card-title {
+  font-family: var(--serif);
+  font-size: 1.375rem;
+  font-weight: 400;
+  color: var(--text-dark);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+.work-card-desc {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-body);
+  margin-bottom: 12px;
+}
+.work-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--teal);
+  transition: color var(--transition);
+}
+.work-card-link:hover { color: var(--teal-dark); }
+
+/* ── HOME PAGE: EXPERIENCE / EDUCATION / ABOUT ── */
+.extra-section {
+  padding: 48px 0 56px;
+  border-top: 1px solid var(--mid-gray);
+}
+.extra-section-title {
+  font-size: 1.0625rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+.experience-list,
+.education-list {
+  display: flex;
+  flex-direction: column;
+}
+.experience-item,
+.education-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--mid-gray);
+}
+.experience-item:last-child,
+.education-item:last-child { border-bottom: none; }
+.experience-role,
+.education-degree {
   font-size: 1rem;
   font-weight: 500;
   color: var(--text-dark);
-  margin-bottom: 3px;
 }
-.work-card-sub {
+.experience-company,
+.education-school {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.experience-years,
+.education-year {
   font-size: 0.875rem;
   color: var(--text-muted);
+  white-space: nowrap;
+}
+.about-text {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--text-body);
+  max-width: 640px;
 }
 
 /* ── CASE STUDY PAGES ── */
