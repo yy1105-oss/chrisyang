@@ -1,12 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mobile Design — Christopher Yang</title>
-  <meta name="description" content="Learning on the Go — Mobile Design case study by Christopher Yang.">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/png" href="images/favicon/favicon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christopher Yang — Pearson Prep Case Study</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/png" href="images/favicon/favicon.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --ink: #1A1A18;
+    --mid: #52524E;
+    --muted: #8C8C88;
+    --rule: #D8DCE0;
+    --tag-bg: #E4E8EC;
+  }
+
+  body {
+    font-size: 15px;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  /* ── PAGE LAYOUT ── */
+  .page { max-width: 1100px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+
+  /* ── HERO META GRID ── */
+  .meta-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    border: 1px solid var(--rule); border-radius: 10px;
+    overflow: hidden; margin-top: 40px;
+  }
+  .meta-cell { padding: 20px 24px; border-right: 1px solid var(--rule); }
+  .meta-cell:last-child { border-right: none; }
+  .meta-label { font-size: 10px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  .meta-value { font-size: 13px; font-weight: 500; color: var(--ink); }
+
+  /* ── CONTENT LAYOUT (sidebar + main) ── */
+  .content-wrap {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 64px;
+    padding-top: 72px;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  .sidebar {
+    position: sticky; top: 96px;
+    height: fit-content;
+    align-self: start;
+  }
+  .sidebar-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .sidebar-nav { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar-nav a {
+    font-size: 13px; color: var(--muted); text-decoration: none;
+    padding: 5px 0; border-left: 2px solid transparent;
+    padding-left: 12px; transition: color 0.15s, border-color 0.15s;
+    line-height: 1.4;
+  }
+  .sidebar-nav a:hover { color: var(--ink); border-left-color: var(--rule); }
+  .sidebar-nav a.active { color: var(--ink); font-weight: 500; border-left-color: var(--ink); }
+
+  /* ── MAIN CONTENT ── */
+  .main { min-width: 0; padding-bottom: 100px; }
+
+  .cs-section {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--rule);
+    scroll-margin-top: 80px;
+  }
+  .cs-section:last-of-type { border-bottom: none; }
+
+  .section-kicker {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+  }
+  .cs-section h2 {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.15; letter-spacing: -0.01em;
+    font-weight: 400; margin-bottom: 28px; color: var(--ink);
+  }
+  .cs-section h2 em { font-style: italic; font-weight: 400; }
+  .cs-section h3 {
+    font-family: var(--serif);
+    font-size: 18px; font-weight: 400;
+    margin-bottom: 10px; color: var(--ink); line-height: 1.3;
+  }
+  .cs-section p { font-size: 15px; color: var(--mid); line-height: 1.85; font-weight: 300; margin-bottom: 20px; }
+  .cs-section p:last-child { margin-bottom: 0; }
+
+  /* pull quote */
+  .pull {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.45; letter-spacing: -0.01em;
+    color: var(--ink); font-weight: 400;
+    border-left: 2px solid var(--ink);
+    padding-left: 24px;
+    margin: 32px 0;
+  }
+
+  /* stats */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); border-radius: 10px;
+    overflow: hidden; margin: 32px 0;
+  }
+  .stat-cell { background: var(--white); padding: 28px 22px; }
+  .stat-n {
+    font-family: var(--serif); font-size: 42px; line-height: 1;
+    letter-spacing: -0.02em; color: var(--ink); font-weight: 400;
+    margin-bottom: 6px;
+  }
+  .stat-l { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* outcome cards */
+  .outcome-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); border-radius: 10px;
+    overflow: hidden; margin: 32px 0;
+  }
+  .outcome-cell { background: var(--white); padding: 32px 24px; }
+  .outcome-n {
+    font-family: var(--serif); font-size: 48px; line-height: 1;
+    letter-spacing: -0.03em; color: var(--ink); font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .outcome-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+  }
+  .outcome-desc { font-size: 13px; color: var(--mid); line-height: 1.65; font-weight: 300; }
+
+  /* deliverable list */
+  .del-list { display: flex; flex-direction: column; margin: 0; }
+  .del-item {
+    display: grid; grid-template-columns: 32px 1fr;
+    gap: 24px; padding: 28px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .del-item:first-child { padding-top: 0; }
+  .del-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .del-n { font-size: 12px; font-weight: 500; color: var(--muted); padding-top: 2px; }
+  .del-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .del-body { font-size: 14px; color: var(--mid); line-height: 1.75; font-weight: 300; margin-bottom: 10px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    font-size: 11px; font-weight: 500; padding: 3px 10px;
+    border-radius: 4px; background: var(--tag-bg); color: var(--mid);
+  }
+
+  /* process steps */
+  .process-list { display: flex; flex-direction: column; }
+  .process-item {
+    display: grid; grid-template-columns: 140px 1fr;
+    gap: 40px; padding: 36px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .process-item:first-child { padding-top: 0; }
+  .process-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .process-phase {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--muted); padding-top: 4px;
+  }
+  .process-title { font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.01em; }
+
+  /* quote blocks */
+  .quote-set { display: flex; flex-direction: column; gap: 20px; margin: 32px 0; }
+  .quote-card {
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: 10px; padding: 28px 28px 28px 32px;
+    border-left: 3px solid var(--rule);
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 24px; align-items: center;
+  }
+  .quote-text {
+    font-family: var(--serif); font-size: 16px; font-style: italic;
+    line-height: 1.6; color: var(--ink); font-weight: 400; margin: 0;
+  }
+  .quote-attr { font-size: 12px; color: var(--muted); margin-top: 10px; font-style: normal; font-family: var(--sans); }
+  .quote-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--tag-bg); display: flex; align-items: center;
+    justify-content: center; font-size: 18px; flex-shrink: 0;
+    border: 1px solid var(--rule);
+  }
+
+  /* hypothesis / now-later */
+  .focus-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); border-radius: 10px;
+    overflow: hidden; margin: 32px 0;
+  }
+  .focus-cell { background: var(--white); padding: 28px 24px; }
+  .focus-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+  }
+  .focus-cell ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .focus-cell li { font-size: 14px; color: var(--mid); font-weight: 300; padding-left: 16px; position: relative; }
+  .focus-cell li::before { content: '—'; position: absolute; left: 0; color: var(--muted); }
+
+  /* heuristic chart */
+  .heuristic-chart { margin: 24px 0 0; border: 1px solid var(--rule); border-radius: 10px; padding: 16px 16px 4px; background: var(--white); }
+  .heuristic-chart-svg { width: 100%; height: auto; display: block; }
+  .chart-grid { fill: none; stroke: var(--rule); stroke-width: 1; }
+  .chart-spoke { stroke: var(--rule); stroke-width: 1; }
+  .chart-area { stroke-linejoin: round; }
+  .chart-area-total { fill: rgba(42,181,181,0.12); stroke: #2ab5b5; stroke-width: 1.5; }
+  .chart-area-critical { fill: rgba(31,148,148,0.38); stroke: #1f9494; stroke-width: 2; }
+  .chart-label { font-size: 11px; fill: var(--muted); }
+  .chart-scale { font-size: 10px; fill: var(--muted); }
+  .chart-legend { display: flex; justify-content: center; gap: 24px; padding: 12px 0 16px; }
+  .chart-legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--mid); }
+  .chart-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .chart-swatch-total { background: rgba(42,181,181,0.4); border: 1.5px solid #2ab5b5; }
+  .chart-swatch-critical { background: #1f9494; }
+
+  /* closing cta */
+  .cta-block {
+    background: var(--ink); color: #fff;
+    border-radius: 12px; padding: 48px;
+    margin-top: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .cta-block h3 { font-family: var(--serif); font-size: 24px; color: #fff; margin-bottom: 6px; font-weight: 400; }
+  .cta-block p { color: rgba(255,255,255,0.6); font-size: 14px; margin: 0; }
+  .cta-link {
+    font-size: 14px; font-weight: 500;
+    background: #fff; color: var(--ink);
+    padding: 12px 28px; border-radius: 8px;
+    text-decoration: none; white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .cta-link:hover { opacity: 0.88; }
+
+  /* responsive */
+  @media (max-width: 800px) {
+    .page { padding-left: 24px; padding-right: 24px; }
+    .content-wrap { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .meta-grid { grid-template-columns: repeat(2, 1fr); }
+    .meta-cell:nth-child(2) { border-right: none; }
+    .meta-cell:nth-child(3), .meta-cell:nth-child(4), .meta-cell:nth-child(5) { border-top: 1px solid var(--rule); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .outcome-row { grid-template-columns: 1fr; }
+    .process-item { grid-template-columns: 1fr; gap: 8px; }
+    .focus-grid { grid-template-columns: 1fr; }
+    .quote-card { grid-template-columns: 1fr; }
+    .quote-avatar { display: none; }
+    .cta-block { flex-direction: column; }
+  }
+
+
+  /* ── HERO: live, clickable rebuild ── */
+  .hero-live { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 40px; align-items: center; margin-top: 40px; padding: 40px 48px; border-radius: 20px; background: linear-gradient(160deg, #EAF2F5 0%, #F5F7F9 60%, #FFFFFF 100%); box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+  .hero-live-pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 99px; background: #fff; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .hero-live-dot { width: 8px; height: 8px; border-radius: 50%; background: #2fb36b; box-shadow: 0 0 0 0 rgba(47,179,107,0.5); animation: live-pulse 1.8s infinite; }
+  @keyframes live-pulse { 70% { box-shadow: 0 0 0 8px rgba(47,179,107,0); } 100% { box-shadow: 0 0 0 0 rgba(47,179,107,0); } }
+  .hero-live-copy h2 { margin: 16px 0 8px; font-size: clamp(26px, 3vw, 34px); line-height: 1.15; }
+  .hero-live-copy p { color: var(--mid); margin: 0 0 10px; }
+  .hero-live-tips { margin: 0 0 22px; padding-left: 20px; color: var(--mid); }
+  .hero-live-tips li { margin-bottom: 6px; }
+  .hero-live-tips b { color: var(--ink); }
+  .hero-live-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hero-live-open, .hero-live-restart { display: inline-flex; align-items: center; height: 42px; padding: 0 18px; border-radius: 99px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; }
+  .hero-live-open { background: var(--ink); color: #fff; }
+  .hero-live-restart { background: #fff; color: var(--ink); border: 1px solid var(--rule); }
+  .hero-live-note { margin-top: 14px !important; font-size: 13px; color: var(--muted) !important; }
+  .hero-phone { width: 430px; padding: 11px; border-radius: 58px; background: linear-gradient(135deg, #d5d1c8, #8a8780 45%, #c9c4ba); box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35), 0 40px 40px -30px rgba(25,30,40,0.45); }
+  .hero-phone-screen { position: relative; height: 830px; border-radius: 47px; overflow: hidden; background: #f2f2f7; border: 9px solid #08080a; }
+  .hero-phone-status { position: relative; height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px 0 34px; font-size: 15px; font-weight: 600; color: #000; background: #f2f2f7; }
+  .hero-phone-island { position: absolute; left: 50%; top: 9px; width: 104px; height: 30px; margin-left: -52px; border-radius: 20px; background: #000; }
+  .hero-phone-icons { fill: #000; }
+  .hero-live-frame { display: block; width: 100%; height: calc(100% - 44px); border: 0; background: #f2f2f7; }
+  .hero-live-fallback { display: none; }
+  @media (max-width: 900px) {
+    .hero-live { grid-template-columns: 1fr; padding: 28px 24px; }
+    .hero-live-device { display: none; }
+    .hero-live-fallback { display: block; width: 100%; margin-top: 8px; }
+  }
+
+  /* ── PEARSON PREP: sub-heads, extra grids ── */
+  .del-list + p { margin-top: 32px; }
+  /* Illustrations from the deck: even breathing room inside their frame */
+  .case-img-block img.img-pad { padding: 44px 40px; background: #fff; }
+  /* "What I'd do differently": same border all round, bulb leading on the left */
+  .quote-card.lesson { border-left-width: 1px; grid-template-columns: auto 1fr; gap: 24px; }
+  .quote-card.lesson .quote-avatar { width: 68px; height: 68px; font-size: 30px; }
+  .sub-h { font-size: 18px; font-weight: 600; color: var(--ink); margin: 40px 0 10px; letter-spacing: -0.01em; }
+  .stats-grid.three { grid-template-columns: repeat(3, 1fr); }
+  .outcome-row.four { grid-template-columns: repeat(4, 1fr); }
+
+  /* ── BEFORE / AFTER SLIDERS ── */
+  .compare-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 32px 0 8px; }
+  .compare { margin: 0; }
+  .compare-frame { position: relative; aspect-ratio: 780 / 1688; border-radius: 28px; overflow: hidden; box-shadow: 0 18px 40px rgba(20, 30, 40, 0.16); background: #f2f2f7; touch-action: pan-y; }
+  .compare-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .compare-before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+  .compare-handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.12); pointer-events: none; }
+  .compare-handle::after { content: "⟷"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px; border-radius: 50%; background: #fff; color: var(--ink); font-size: 16px; line-height: 34px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+  .compare-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
+  .compare-range:focus-visible + .compare-handle, .compare-frame:focus-within .compare-handle::after { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .compare-tag { position: absolute; top: 12px; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; pointer-events: none; }
+  .compare-tag-before { left: 12px; background: rgba(26,26,24,0.78); color: #fff; }
+  .compare-tag-after { right: 12px; background: rgba(255,255,255,0.9); color: var(--ink); }
+  .compare-hero { margin: 32px 0 8px; }
+  .compare-hero .compare-frame { aspect-ratio: 2922 / 1734; border-radius: 0; box-shadow: none; background: #fff; }
+  .compare-hero .compare-frame img { object-fit: contain; }
+  .compare-hero .compare-handle { background: var(--ink); box-shadow: none; }
+  .compare-hero .compare-handle::after { background: var(--ink); color: #fff; }
+  .compare-hero figcaption { max-width: 640px; }
+  .compare figcaption { margin-top: 14px; font-size: 13px; line-height: 1.5; color: var(--mid); }
+  .compare figcaption b { color: var(--ink); }
+
+  /* ── CLAUDE: flow + short reel ── */
+  .ai-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 12px; margin: 32px 0; }
+  .ai-flow-step { display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: 18px; background: var(--tag-bg); font-size: 13px; line-height: 1.45; color: var(--mid); }
+  .ai-flow-step b { font-size: 15px; color: var(--ink); }
+  .ai-flow-icon { font-size: 22px; line-height: 1; margin-bottom: 4px; }
+  .ai-flow-claude { background: #F4E9E2; }
+  .ai-flow-arrow { align-self: center; font-size: 22px; color: var(--muted); }
+  .reel-wrap { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: center; margin: 64px 0 56px; }
+  .reel-stand { position: relative; isolation: isolate; }
+  .reel-stand::after { content: ""; position: absolute; z-index: -1; left: 4%; right: 4%; bottom: -16px; height: 34px; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(25, 30, 40, 0.38) 0%, rgba(25, 30, 40, 0.14) 45%, rgba(25, 30, 40, 0) 72%); filter: blur(5px); }
+  .reel { position: relative; aspect-ratio: 780 / 1688; border-radius: 34px; overflow: hidden; border: 8px solid #1A1A18; background: #f2f2f7; }
+  .reel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: reel 15s infinite; }
+  .reel img:nth-child(2) { animation-delay: 3s; } .reel img:nth-child(3) { animation-delay: 6s; } .reel img:nth-child(4) { animation-delay: 9s; } .reel img:nth-child(5) { animation-delay: 12s; }
+  @keyframes reel { 0% { opacity: 0; transform: scale(1.03); } 3% { opacity: 1; transform: scale(1); } 20% { opacity: 1; } 23% { opacity: 0; } 100% { opacity: 0; } }
+  .reel-steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .reel-steps li { counter-increment: s; position: relative; padding-left: 44px; font-size: 15px; line-height: 1.5; color: var(--mid); animation: reel-step 15s infinite; }
+  .reel-steps li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 28px; height: 28px; border-radius: 50%; background: var(--tag-bg); color: var(--ink); font-size: 13px; font-weight: 600; line-height: 28px; text-align: center; }
+  .reel-steps li b { color: var(--ink); }
+  .reel-steps li:nth-child(2) { animation-delay: 3s; } .reel-steps li:nth-child(3) { animation-delay: 6s; } .reel-steps li:nth-child(4) { animation-delay: 9s; } .reel-steps li:nth-child(5) { animation-delay: 12s; }
+  @keyframes reel-step { 0%, 21% { opacity: 1; } 24%, 100% { opacity: 0.45; } }
+  @media (prefers-reduced-motion: reduce) {
+    .reel img { animation: none; } .reel img:first-child { opacity: 1; }
+    .reel-steps li { animation: none; }
+  }
+
+  @media (max-width: 860px) {
+    .case-img-block img.img-pad { padding: 24px 16px; }
+    .quote-card.lesson { grid-template-columns: auto 1fr; }
+    .quote-card.lesson .quote-avatar { display: flex; width: 48px; height: 48px; font-size: 22px; }
+    .stats-grid.three { grid-template-columns: 1fr; }
+    .outcome-row.four { grid-template-columns: repeat(2, 1fr); }
+    .compare-grid { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
+    .ai-flow { grid-template-columns: 1fr; }
+    .ai-flow-arrow { transform: rotate(90deg); justify-self: center; }
+    .reel-wrap { grid-template-columns: 1fr; justify-items: center; }
+    .reel-stand { width: 240px; }
+  }
+</style>
 </head>
 <body>
 
@@ -24,21 +381,11 @@
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="nav-dropdown-menu">
-          <a href="saas-design.html" class="nav-dropdown-item">
-            <span class="nav-dropdown-item-title">SaaS Design</span>
-          </a>
-          <a href="platform.html" class="nav-dropdown-item">
-            <span class="nav-dropdown-item-title">Platform design</span>
-          </a>
-          <a href="apps.html" class="nav-dropdown-item">
-            <span class="nav-dropdown-item-title">App design</span>
-          </a>
-          <a href="branding.html" class="nav-dropdown-item">
-            <span class="nav-dropdown-item-title">Branding</span>
-          </a>
-          <a href="assessment.html" class="nav-dropdown-item">
-            <span class="nav-dropdown-item-title">Assessment</span>
-          </a>
+          <a href="saas-design.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">SaaS Design</span></a>
+          <a href="platform.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Platform design</span></a>
+          <a href="apps.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">App design</span></a>
+          <a href="branding.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Branding</span></a>
+          <a href="assessment.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Assessment</span></a>
         </div>
       </div>
       <a href="https://drive.google.com/file/d/1PKk_yvtjGGQ4_b9qK4UiG_FFVXlT4Xbw/view?usp=sharing" target="_blank" class="nav-resume">Resume</a>
@@ -51,94 +398,243 @@
 </nav>
 
 <main class="page">
-  <div class="container">
 
-    <a href="index.html" class="back-home-link">← Back To Home Page</a>
+  <a href="index.html" class="back-home-link">← Back To Home Page</a>
 
-    <header class="case-hero">
-      <div class="case-hero-eyebrow">Mobile Design</div>
-      <h1>Learning on the Go</h1>
-      <p class="case-hero-sub">A mobile-first study solution for students</p>
-      <img class="case-hero-img" src="images/apps/apps-hero.avif" alt="Mobile Design Hero">
-    </header>
-
-    <div class="case-body">
-
-      <section class="case-section">
-        <h3>Project Overview</h3>
-        <p>Pearson Prep is a mobile-first solution to help students study. By bringing together a student's course and study materials — both author-provided and student-created — giving them a place to start, and enabling them to target what they need to learn most when they can learn it best.</p>
-      </section>
-
-      <section class="case-section">
-        <h3>Process</h3>
-        <p>Involved in ideation, research, and validation phases, I worked with PM, Learning Design, and a Prototyper to create working demos for research. Then moved forward with production and continued to improve and iterate through product cycles.</p>
-      </section>
-
-      <section class="case-section">
-        <h3>Timeline</h3>
-        <p>Mobile: iOS &amp; Android — Available in the Apple App Store &amp; Google Play Store.</p>
-        <p>Desktop version released in Q4 2019.</p>
-        <div class="case-img-block">
-          <img src="images/apps/timeline-flow.avif" alt="Timeline">
-          <p class="case-img-caption">Product timeline from kickoff to launch.</p>
-        </div>
-      </section>
-
-      <section class="case-section">
-        <h3>Key Features</h3>
-        <ul>
-          <li>Pre-made Expert Decks</li>
-          <li>Auto-create flashcards from class notes</li>
-          <li>Manual create individual flashcards</li>
-          <li>Adaptive practice</li>
+  <!-- HERO -->
+  <header class="case-hero">
+    <div class="case-hero-eyebrow">App Design · EdTech Mobile + Web</div>
+    <h1>Pearson Prep</h1>
+    <p class="case-hero-sub">Helping learners figure out where to start, and when they’re ready. Four years leading design on a study app that turned a learner’s own notes into flashcards, from a fake-door test to roughly 57,000 users.</p>
+    <!-- Live, clickable rebuild (the real app, embedded) -->
+    <div class="hero-live">
+      <div class="hero-live-copy">
+        <span class="hero-live-pill"><span class="hero-live-dot" aria-hidden="true"></span>Live prototype · 2026 rebuild</span>
+        <h2>Try the modernized app</h2>
+        <p>This is the working rebuild, not a mockup. Tap around:</p>
+        <ul class="hero-live-tips">
+          <li>Open a deck and press <b>Practice</b>. Answers move on when you’re right, and you get results at the end.</li>
+          <li>Tap the <b>trophy</b> to see Rewards and claim a challenge.</li>
+          <li>Try <b>Make cards from notes</b> → Paste text, under Decks › My decks.</li>
         </ul>
-      </section>
+        <div class="hero-live-actions">
+          <a class="hero-live-open" href="https://pp-mobile-modern.vercel.app/?demo=1" target="_blank" rel="noopener">Open full screen ↗</a>
+          <button type="button" class="hero-live-restart" aria-label="Reload the live app">Reload</button>
+        </div>
+        <p class="hero-live-note">Uses sample data, saved only in your browser. On your phone, open the full-screen link for the real feel.</p>
+      </div>
+      <div class="hero-live-device">
+        <div class="hero-phone">
+          <div class="hero-phone-screen">
+            <div class="hero-phone-status" aria-hidden="true"><span>9:41</span><span class="hero-phone-island"></span><svg class="hero-phone-icons" width="66" height="12" viewBox="0 0 66 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="6" width="3" height="6" rx="1"/><rect x="10" y="3.5" width="3" height="8.5" rx="1"/><rect x="15" y="1" width="3" height="11" rx="1"/><path d="M30 3.2a10 10 0 0 1 13 0l-1.4 1.5a8 8 0 0 0-10.2 0zM32.4 5.9a6.3 6.3 0 0 1 8.2 0l-1.4 1.5a4.3 4.3 0 0 0-5.4 0zM36.5 8.6l1.9 2-1.9 1.4-1.9-1.4z"/><rect x="47.5" y="1" width="16" height="10" rx="3" fill="none" stroke="#000" stroke-opacity="0.4"/><rect x="49" y="2.5" width="13" height="7" rx="1.6"/><path d="M64.5 4.5v3a1.6 1.6 0 0 0 0-3z" fill-opacity="0.4"/></svg></div>
+            <iframe class="hero-live-frame" src="https://pp-mobile-modern.vercel.app/?demo=1" title="Pearson Prep, live interactive rebuild" loading="lazy" allow="clipboard-read; clipboard-write"></iframe>
+          </div>
+        </div>
+      </div>
+      <img class="hero-live-fallback" src="images/apps/compare/after-hero.webp" alt="The rebuilt Pearson Prep on phone and desktop">
+    </div>
+    <div class="meta-grid">
+      <div class="meta-cell"><div class="meta-label">My Role</div><div class="meta-value">Lead UX Designer · user research, prototyping, design system</div></div>
+      <div class="meta-cell"><div class="meta-label">Team</div><div class="meta-value">Learning Apps, ACDSL data science lab, Study Tools</div></div>
+      <div class="meta-cell"><div class="meta-label">Platform</div><div class="meta-value">iOS, Android &amp; Web</div></div>
+      <div class="meta-cell"><div class="meta-label">Duration</div><div class="meta-value">2016–2020 · 4 years</div></div>
+      <div class="meta-cell"><div class="meta-label">Status</div><div class="meta-value">Launched · ~57K users</div></div>
+    </div>
+  </header>
 
-      <hr class="case-divider">
+  <div class="content-wrap">
 
-      <section class="case-section">
-        <h3>Site Maps</h3>
-        <p>In order to make sense of the product criteria and features, sitemap design helped the product team, stakeholders, and developers get an overview and understand the scope of effort. With the sitemap approved, we translated it into UI screens to ensure the functions were properly represented.</p>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-label">On this page</div>
+      <nav class="sidebar-nav">
+        <a href="#starting-point" class="active">The starting point</a>
+        <a href="#challenge">The challenge</a>
+        <a href="#action">The action</a>
+        <a href="#built">What we built</a>
+        <a href="#result">The result</a>
+        <a href="#before-after">Before &amp; after</a>
+        <a href="#claude">Modernized with Claude</a>
+      </nav>
+    </aside>
+
+    <div class="main">
+
+      <!-- 01 SITUATION -->
+      <section class="cs-section" id="starting-point">
+        <div class="section-kicker">01 · The Starting Point</div>
+        <h2>Learners had plenty to study, but <em>nothing they could trust</em></h2>
+        <p>In 2016, Pearson made the textbooks, but when learners sat down to study they weren’t really using Pearson. They re-read notes, flipped through lecture slides and, mostly, Googled. They’d find five answers on five websites with no way to tell which was right, and they were short on time between classes, jobs and families.</p>
+        <p>Our team partnered with Pearson’s data science lab with a simple question: could we take a learner’s own material, add content they could actually trust, and turn it into a better way to study?</p>
         <div class="case-img-block">
-          <img src="images/apps/site-map.webp" alt="Sitemap">
-          <p class="case-img-caption">Sitemap helps dev and product team understand the general flow.</p>
+          <img class="lightbox-trigger" data-lightbox-group="start" src="images/apps/case/starting-point.webp" alt="Lecture slides, class notes, a textbook, a classmate's flashcards and web search all surrounding the question: what can I trust, and where do I start?">
+        </div>
+        <div class="pull">“I don’t know where to start, what to focus on, or when I’m actually ready.” — the feeling behind 13 rounds of learner research</div>
+        <div class="focus-grid">
+          <div class="focus-cell">
+            <div class="focus-label">Who we built it for</div>
+            <p><b>Busy higher-ed learners</b>, mostly in courses like Anatomy &amp; Physiology, Sociology and Accounting.</p>
+          </div>
+          <div class="focus-cell">
+            <div class="focus-label">Who we built it with</div>
+            <p><b>Learning Apps</b> owned the app; <b>ACDSL</b>, Pearson’s data science lab, built the engine that turned notes into cards; <b>Study Tools</b> wanted the same flashcards inside Revel &amp; eText.</p>
+          </div>
         </div>
       </section>
 
-      <hr class="case-divider">
-
-      <section class="case-section">
-        <h3>Results</h3>
-        <p>One initial key metric was getting to a live working mobile &amp; desktop app for a 2,000-person beta test in 10 weeks.</p>
-        <div class="results-grid">
-          <div class="result-stat">
-            <span class="result-stat-num">13.2k</span>
-            <span class="result-stat-label">subscribers in the first 3 months</span>
-          </div>
-          <div class="result-stat">
-            <span class="result-stat-num">$26k</span>
-            <span class="result-stat-label">revenue from premium decks purchased</span>
-          </div>
-          <div class="result-stat">
-            <span class="result-stat-num">10 wk</span>
-            <span class="result-stat-label">from kickoff to live beta for 2,000 users</span>
-          </div>
+      <!-- 02 CHALLENGE -->
+      <section class="cs-section" id="challenge">
+        <div class="section-kicker">02 · The Challenge</div>
+        <h2>Four things I was <em>up against</em></h2>
+        <div class="del-list">
+          <div class="del-item"><div class="del-n">01</div><div><div class="del-title">Prove the demand</div><p class="del-body">Show learners actually wanted this before Pearson put real money behind it.</p></div></div>
+          <div class="del-item"><div class="del-n">02</div><div><div class="del-title">Make “smart” feel simple</div><p class="del-body">The adaptive features were genuinely hard to explain, and they had to feel effortless.</p></div></div>
+          <div class="del-item"><div class="del-n">03</div><div><div class="del-title">Find what learners pay for</div><p class="del-body">It had to make sense as a business, not just as a good study tool.</p></div></div>
+          <div class="del-item"><div class="del-n">04</div><div><div class="del-title">Work alone and inside Revel &amp; eText</div><p class="del-body">The same flashcards needed to live as their own app and inside two other products at once.</p></div></div>
         </div>
-        <p>The Prep product was a success — it validated that students desired additional study content and were willing to pay for it if it was high quality. The expert decks were subsequently rolled into the Pearson Plus version of eText. This was the first app for Pearson Higher Ed to release in the app store and generate revenue.</p>
+        <p>Research kept us honest. Over 13 rounds, learners told us they wanted this, but a few things kept tripping them up:</p>
+        <div class="stats-grid three">
+          <div class="stat-cell"><div class="stat-n">3×</div><div class="stat-l">onboarding rebuilt, because “smart” didn’t land</div></div>
+          <div class="stat-cell"><div class="stat-n">43%</div><div class="stat-l">loved Expert Decks but wouldn’t pay for them</div></div>
+          <div class="stat-cell"><div class="stat-n">64→34</div><div class="stat-l">cards viewed vs. practiced: browsing, not practicing</div></div>
+        </div>
       </section>
 
+      <!-- 03 ACTION -->
+      <section class="cs-section" id="action">
+        <div class="section-kicker">03 · The Action</div>
+        <h2>Putting each job <em>where it belongs</em></h2>
+        <p>The original idea was a website. But when I mapped what people actually do, making cards happens on a laptop, where notes and slides already live, and studying happens on the phone, in the five minutes between classes. Our lab test backed it up: four out of five learners said they’d start on a laptop and study on their phone. So we flipped it, and the website became a mobile-first app.</p>
+        <div class="case-img-block">
+          <img class="lightbox-trigger img-pad" data-lightbox-group="action" src="images/apps/case/create-practice.webp" alt="Create on a laptop, where your notes live, then practice on your phone in spare minutes. 4 out of 5 learners start on a laptop, then study on their phone.">
+        </div>
+
+        <h3 class="sub-h">Testing before building</h3>
+        <p>We started cheap, with a fake-door landing page, and 58 learners signed up in three weeks. I then designed a working prototype that was running in about ten weeks, and we kept putting it in front of real learners: a survey of 159 people, a two-week live beta and a lab study in Boston.</p>
+        <div class="case-img-block">
+          <img class="lightbox-trigger img-pad" data-lightbox-group="action" src="images/apps/case/testing-timeline.webp" alt="Timeline: fake-door page Aug 2016, 58 sign-ups in 3 weeks; prototype Feb–May 2017, 5 sprints in about 10 weeks; survey Apr 2017, 159 learners; live beta Apr 2017, 2 weeks of real use; lab study Nov 2017, 5 of 5 would switch.">
+        </div>
+
+        <h3 class="sub-h">Letting learners lead the design</h3>
+        <div class="process-list">
+          <div class="process-item"><div class="process-phase">Learners said</div><div><div class="process-title">The red readiness bar felt “demeaning”</div><p>So I took the red out and hid progress while they practiced.</p></div></div>
+          <div class="process-item"><div class="process-phase">Learners said</div><div><div class="process-title">They expected simple term-and-definition cards</div><p>So I rebuilt card creation as front and back, like the flashcards they already knew.</p></div></div>
+          <div class="process-item"><div class="process-phase">Learners said</div><div><div class="process-title">73% wanted content they could trust</div><p>So we added Expert Decks, which became our most-used feature.</p></div></div>
+        </div>
+        <div class="pull">The hard part wasn’t making the cards smart. It was making “smart” feel simple.</div>
+      </section>
+
+      <!-- WHAT WE BUILT -->
+      <section class="cs-section" id="built">
+        <div class="section-kicker">03 · What We Built</div>
+        <h2>Your notes become flashcards, <em>practiced in minutes</em></h2>
+        <p>Drop in your own notes or slides and Pearson Prep turns them into flashcards. Add Pearson Expert Decks when you want content you can trust. Then practice in short sessions on your phone, and see right away what you got right and what to review.</p>
+        <h3 class="sub-h">Launch wasn’t the finish line</h3>
+        <p>We saw people browsing more than practicing, so I designed lighter, more playful pieces, like coins, a matching game and deck skins, to pull them into practice. The data still said learners didn’t know if they were ready, so I led the design of <b>Exam Home</b>, which put the exam date front and center and planned practice around it. That brought us right back to the question we started with.</p>
+        <div class="case-img-block">
+          <img class="lightbox-trigger" data-lightbox-group="built" src="images/apps/site-map.webp" alt="Pearson Prep site map">
+          <p class="case-img-caption">The app’s site map across Exams, Expert Decks, My Decks, the store and settings. Click to view full size.</p>
+        </div>
+      </section>
+
+      <!-- 04 RESULT -->
+      <section class="cs-section" id="result">
+        <div class="section-kicker">04 · The Result</div>
+        <h2>From 58 sign-ups to <em>~57,000 learners</em></h2>
+        <div class="outcome-row four">
+          <div class="outcome-cell"><div class="outcome-label">Prototype</div><div class="outcome-n">~10 wks</div><p class="outcome-desc">From a fake-door test to a working prototype in learners’ hands.</p></div>
+          <div class="outcome-cell"><div class="outcome-label">Confidence</div><div class="outcome-n">82%</div><p class="outcome-desc">of surveyed learners said it would make them feel more confident; every lab tester said they’d switch.</p></div>
+          <div class="outcome-cell"><div class="outcome-label">Users</div><div class="outcome-n">~57K</div><p class="outcome-desc">by February 2020, on iOS, Android and the web.</p></div>
+          <div class="outcome-cell"><div class="outcome-label">Expert Decks</div><div class="outcome-n">8,600+</div><p class="outcome-desc">added by learners in the first five months of 2019.</p></div>
+        </div>
+        <div class="quote-set">
+          <div class="quote-card lesson">
+            <div class="quote-avatar" aria-hidden="true">💡</div>
+            <div>
+              <p class="quote-text">“If I did it again, I’d test pricing before building the store.” We proved learners wanted Expert Decks, but not that they’d pay, and 43% told us they wouldn’t.</p>
+              <div class="quote-attr">— What I’d do differently</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BEFORE & AFTER -->
+      <section class="cs-section" id="before-after">
+        <div class="section-kicker">Then &amp; Now</div>
+        <h2>The same app, <em>rebuilt for today</em></h2>
+        <p>In 2026 I returned to Pearson Prep and rebuilt it as a working app, keeping the flows learners helped design and modernizing everything around them: large titles, a floating glass tab bar, rounded cards with no divider lines, and light, soft and dark themes. Drag the slider to compare.</p>
+        <figure class="compare compare-hero" style="--pos: 50%">
+          <div class="compare-frame">
+            <img src="images/apps/compare/after-hero.webp" alt="The 2026 rebuild: the new Decks screen, review cards from clipped notes, the results page, and the desktop app" loading="lazy">
+            <img class="compare-before" src="images/apps/apps-hero.avif" alt="Pearson Prep as it shipped: Expert Decks, card creation and session summary on iPhone, and Expert Decks on iPad" loading="lazy">
+            <span class="compare-tag compare-tag-before">2019 · As shipped</span><span class="compare-tag compare-tag-after">2026 · Rebuilt</span>
+            <span class="compare-handle" aria-hidden="true"></span>
+            <input class="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare Pearson Prep as shipped with the 2026 rebuild">
+          </div>
+          <figcaption>Same devices, same jobs. <b>Expert Decks</b> becomes one Decks tab, <b>Create Card</b> becomes cards suggested from your own notes, <b>Session Summary</b> becomes a results page with rewards earned, and the iPad grid becomes a desktop app for making cards on a laptop.</figcaption>
+        </figure>
+      </section>
+
+      <!-- CLAUDE -->
+      <section class="cs-section" id="claude">
+        <div class="section-kicker">Epilogue · 2026</div>
+        <h2>Modernized and extended <em>with Claude</em></h2>
+        <p>The 2016–2020 work lived in Figma files and research decks. In about two weeks, working with Claude (Anthropic’s AI) as my build partner, I turned it into a working app on mobile and desktop that real learners can open on their own phones. I set the direction and made every design call; Claude read the Figma designs and our design-journey doc, wrote the code, tested each change in a browser and shipped it.</p>
+
+        <div class="ai-flow" role="img" aria-label="Figma designs and research go into Claude, which produces a working app on phone and desktop">
+          <div class="ai-flow-step"><span class="ai-flow-icon">✏️</span><b>2020 designs &amp; research</b><span>Figma flows, design-journey doc, case-study deck</span></div>
+          <span class="ai-flow-arrow" aria-hidden="true">→</span>
+          <div class="ai-flow-step ai-flow-claude"><span class="ai-flow-icon">✳️</span><b>Me + Claude</b><span>I direct and critique; Claude builds, tests and deploys</span></div>
+          <span class="ai-flow-arrow" aria-hidden="true">→</span>
+          <div class="ai-flow-step"><span class="ai-flow-icon">📱</span><b>A working app</b><span>Mobile web app + desktop, live on a real iPhone</span></div>
+        </div>
+
+        <div class="reel-wrap">
+          <div class="reel-stand">
+          <div class="reel" aria-label="Short loop of the rebuilt app: suggested cards from clipped notes, the new deck, a correct answer, the results page and Rewards">
+            <img src="images/apps/claude/1-review.webp" alt="Cards suggested from clipped notes">
+            <img src="images/apps/claude/2-deck.webp" alt="The new deck">
+            <img src="images/apps/claude/3-correct.webp" alt="A correct answer in practice">
+            <img src="images/apps/claude/4-results.webp" alt="Results page with rewards earned">
+            <img src="images/apps/claude/5-rewards.webp" alt="Rewards: level, streak and challenges">
+          </div>
+          </div>
+          <ol class="reel-steps">
+            <li><b>Clip notes from anywhere</b> and get suggested cards to review</li>
+            <li><b>A new deck</b>, ready to practice</li>
+            <li><b>Forgiving answers</b> that move on when you’re right</li>
+            <li><b>A results page</b> with what you earned</li>
+            <li><b>Rewards</b>: levels, streaks, challenges, achievements</li>
+          </ol>
+        </div>
+
+        <h3 class="sub-h">What Claude helped add beyond the original</h3>
+        <div class="del-list">
+          <div class="del-item"><div class="del-n">01</div><div><div class="del-title">Real notes-to-cards</div><p class="del-body">Upload .docx, .pdf or .txt files, or clip text from other apps (the Android share menu, an iPhone Shortcut or a desktop bookmarklet). Cards are suggested on the device and the learner keeps the ones they want.</p><div class="chips"><span class="chip">File import</span><span class="chip">Clipping</span></div></div></div>
+          <div class="del-item"><div class="del-n">02</div><div><div class="del-title">Gamification that rewards practice</div><p class="del-body">XP and levels, a daily study streak, daily and weekly challenges to claim, and 14 achievements, aimed at the “browsing, not practicing” problem we found after launch.</p><div class="chips"><span class="chip">Engagement</span></div></div></div>
+          <div class="del-item"><div class="del-n">03</div><div><div class="del-title">An answer to “am I ready?”</div><p class="del-body">Answers that ignore capitals and accents, cards that move on when you’re right, and an end-of-deck results page showing what you got right, what to review, and what you earned.</p><div class="chips"><span class="chip">Practice</span></div></div></div>
+          <div class="del-item"><div class="del-n">04</div><div><div class="del-title">A modern UI on two platforms</div><p class="del-body">Light, soft and dark themes, abstract subject-themed deck skins, zoom transitions, and a desktop version for making cards on a laptop, the same split our 2017 lab study pointed to.</p><div class="chips"><span class="chip">Mobile</span><span class="chip">Desktop</span><span class="chip">Design system</span></div></div></div>
+        </div>
+        <div class="case-img-block">
+          <img class="lightbox-trigger" data-lightbox-group="claude" src="images/apps/claude/desktop-decks.webp" alt="The rebuilt desktop app: Expert decks">
+          <p class="case-img-caption">The rebuilt desktop app. Create on a laptop, practice on the phone. Click to view full size.</p>
+        </div>
+        <div class="pull">Claude didn’t replace the design work. It collapsed the distance between a design decision and a working product, so I could test ideas on a real phone the same day.</div>
+      </section>
+
+      <!-- CTA -->
       <div class="cta-block">
         <div>
-          <h3>Let's build something meaningful.</h3>
-          <p>If you're looking for a designer who values clarity and craft, I'd love to hear from you.</p>
+          <h3>Interested in working together?</h3>
+          <p>I’m open to senior product design roles where research, systems thinking and AI-accelerated prototyping come together.</p>
         </div>
-        <a href="contact.html" class="cta-link">Get in touch →</a>
+        <a href="mailto:chris.yang.design@gmail.com" class="cta-link">Get in touch →</a>
       </div>
-
     </div>
   </div>
 </main>
 
+<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
     <p class="footer-copy">©2023. All rights reserved. Created by <a href="mailto:Chris.yang.design@gmail.com">Chris Yang</a></p>
@@ -150,5 +646,91 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script>
+  const sections = document.querySelectorAll('.cs-section');
+  const links = document.querySelectorAll('.sidebar-nav a');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar-nav a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-prev" aria-label="Previous image">&#8249;</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <button class="lightbox-next" aria-label="Next image">&#8250;</button>
+</div>
+<script>
+  (function () {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeBtn = lightbox.querySelector('.lightbox-close');
+    const prevBtn = lightbox.querySelector('.lightbox-prev');
+    const nextBtn = lightbox.querySelector('.lightbox-next');
+    let group = [];
+    let index = 0;
+
+    function render() {
+      lightboxImg.src = group[index].src;
+      lightboxImg.alt = group[index].alt;
+      const multi = group.length > 1;
+      prevBtn.classList.toggle('lightbox-nav-hidden', !multi);
+      nextBtn.classList.toggle('lightbox-nav-hidden', !multi);
+    }
+    function open(groupName, startEl) {
+      group = Array.from(document.querySelectorAll('[data-lightbox-group="' + groupName + '"]'));
+      index = group.indexOf(startEl);
+      render();
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function close() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    function next() { index = (index + 1) % group.length; render(); }
+    function prev() { index = (index - 1 + group.length) % group.length; render(); }
+
+    document.querySelectorAll('.lightbox-trigger').forEach(function (el) {
+      el.addEventListener('click', function () { open(el.dataset.lightboxGroup, el); });
+    });
+    closeBtn.addEventListener('click', close);
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) close(); });
+    document.addEventListener('keydown', function (e) {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    });
+  })();
+</script>
+
+<!-- LIVE HERO -->
+<script>
+  (function () {
+    var btn = document.querySelector('.hero-live-restart');
+    var frame = document.querySelector('.hero-live-frame');
+    if (btn && frame) btn.addEventListener('click', function () { frame.src = frame.src; });
+  })();
+</script>
+
+<!-- BEFORE / AFTER SLIDERS -->
+<script>
+  document.querySelectorAll('.compare').forEach(function (fig) {
+    var range = fig.querySelector('.compare-range');
+    range.addEventListener('input', function () { fig.style.setProperty('--pos', range.value + '%'); });
+  });
+</script>
+
 </body>
 </html>
