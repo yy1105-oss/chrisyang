@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Christopher Yang — AI Experiment: POS File Monitoring</title>
+<meta name="description" content="How a client ask for a plain POS report became a case for AI-assisted triage — from initial thought to user journey, two competing flows, and a clickable prototype.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" type="image/png" href="images/favicon/favicon.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --bg: #000000;
+    --raised: #111113;
+    --raised-2: #19191c;
+    --line: rgba(255,255,255,0.10);
+    --line-strong: rgba(255,255,255,0.20);
+    --t1: #FFFFFF;
+    --t2: rgba(255,255,255,0.64);
+    --t3: rgba(255,255,255,0.40);
+    --accent: #7C8CFF;
+    --accent-2: #B98CFF;
+  }
+
+  body { background: var(--bg); font-family: var(--sans); font-size: 15px; line-height: 1.75; font-weight: 400; color: var(--t2); }
+
+  /* ── NAV override: dark ── */
+  .nav { background: rgba(0,0,0,0.7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  .nav-logo { color: var(--t1); }
+  .nav-dropdown-trigger { color: var(--t2); }
+  .nav-dropdown-trigger:hover { background: rgba(255,255,255,0.08); }
+  .nav-dropdown-menu { background: var(--raised); border: 1px solid var(--line); }
+  .nav-dropdown-item { border-bottom: 1px solid var(--line); }
+  .nav-dropdown-item:hover { background: rgba(255,255,255,0.06); }
+  .nav-dropdown-item-title { color: var(--t1); }
+  .nav-resume { color: var(--t2); }
+  .nav-resume:hover { background: rgba(255,255,255,0.08); }
+  .nav-cta { background: var(--accent); color: #0A0A0C; }
+  .nav-cta:hover { background: var(--accent-2); }
+  .nav-mobile-toggle span { background: var(--t1); }
+  .back-home-link { color: var(--t3); }
+  .back-home-link:hover { color: var(--t1); }
+  .footer { border-top: 1px solid var(--line); background: var(--bg); }
+  .footer-copy, .footer-links a { color: var(--t3); }
+  .footer-copy a { color: var(--accent); }
+  .footer-links a:hover { color: var(--t1); }
+
+  /* ── PAGE LAYOUT ── */
+  .xwrap { max-width: 1120px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+
+  /* ── HERO ── */
+  .xhero { padding: 140px 0 0; }
+  .xeyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+  .xhero h1 {
+    font-family: var(--sans); font-weight: 600;
+    font-size: clamp(38px, 6vw, 64px); line-height: 1.06; letter-spacing: -0.025em;
+    color: var(--t1); margin: 0 0 20px; max-width: 760px;
+  }
+  .xhero-sub { font-size: clamp(16px, 1.6vw, 19px); color: var(--t2); font-weight: 300; max-width: 560px; margin: 0; }
+
+  .xvideo-wrap { position: relative; margin-top: 56px; }
+  .xglow {
+    position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%);
+    width: 70%; height: 70%; max-width: 720px;
+    background: radial-gradient(circle, rgba(124,140,255,0.5), rgba(185,140,255,0.22) 45%, transparent 72%);
+    filter: blur(70px); z-index: 0; pointer-events: none;
+  }
+  .xvideo-frame {
+    position: relative; z-index: 1;
+    border-radius: 18px; border: 1px solid var(--line-strong);
+    overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.65);
+    background: var(--raised);
+  }
+  .xvideo-frame video { width: 100%; display: block; aspect-ratio: 800 / 912; object-fit: cover; }
+
+  .xmeta-row { display: flex; margin-top: 48px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .xmeta-item { flex: 1; padding: 20px 22px; border-right: 1px solid var(--line); }
+  .xmeta-item:last-child { border-right: none; }
+  .xmeta-label { font-size: 10px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--t3); margin-bottom: 6px; }
+  .xmeta-value { font-size: 12.5px; font-weight: 500; color: var(--t1); line-height: 1.4; }
+
+  /* ── SECTIONS ── */
+  .xsection { padding: 110px 0; border-bottom: 1px solid var(--line); }
+  .xsection:last-of-type { border-bottom: none; }
+  .xkicker { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .xsection h2 {
+    font-family: var(--sans); font-weight: 600;
+    font-size: clamp(28px, 3.6vw, 42px); line-height: 1.15; letter-spacing: -0.02em;
+    color: var(--t1); margin: 0 0 36px; max-width: 680px;
+  }
+  .xsection h2 .xfaint { color: var(--t3); }
+  .xprose { max-width: 640px; }
+  .xprose p { font-size: 15.5px; color: var(--t2); line-height: 1.85; font-weight: 300; margin-bottom: 20px; }
+  .xprose p:last-child { margin-bottom: 0; }
+  .xprose strong { color: var(--t1); font-weight: 500; }
+
+  .xcard { background: var(--raised); border: 1px solid var(--line); border-radius: 14px; }
+  .xquote {
+    padding: 36px 40px; margin: 32px 0 40px;
+    font-family: var(--sans); font-weight: 500;
+    font-size: clamp(18px, 2.1vw, 23px); line-height: 1.45; letter-spacing: -0.01em;
+    color: var(--t1);
+    background: linear-gradient(180deg, rgba(124,140,255,0.08), rgba(124,140,255,0));
+    border: 1px solid var(--line); border-left: 2px solid var(--accent);
+    border-radius: 14px;
+  }
+
+  /* timeline / user journey */
+  .xtimeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 36px; }
+  .xtimeline-item { background: var(--raised); padding: 28px 22px; display: flex; flex-direction: column; }
+  .xtimeline-num { font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 18px; }
+  .xtimeline-phase { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--t3); margin-bottom: 10px; }
+  .xtimeline-item h3 { font-size: 15px; font-weight: 500; color: var(--t1); margin: 0 0 10px; line-height: 1.35; }
+  .xtimeline-item p { font-size: 13px; color: var(--t2); line-height: 1.7; font-weight: 300; margin: 0; }
+
+  /* two pitches: bullet compare */
+  .xfocus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin: 36px 0; }
+  .xfocus-cell { background: var(--raised); padding: 28px 26px; }
+  .xfocus-cell.is-ai { background: linear-gradient(180deg, rgba(124,140,255,0.10), var(--raised) 60%); }
+  .xfocus-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t3); margin-bottom: 16px; }
+  .xfocus-cell.is-ai .xfocus-label { color: var(--accent); }
+  .xfocus-cell ul { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; }
+  .xfocus-cell li { font-size: 13.5px; color: var(--t2); font-weight: 300; padding-left: 18px; position: relative; line-height: 1.5; }
+  .xfocus-cell li::before { content: '—'; position: absolute; left: 0; color: var(--t3); }
+
+  /* screenshot compare frames */
+  .xcompare { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin: 40px 0 0; }
+  .xcompare-col { display: flex; flex-direction: column; }
+  .xpill { display: inline-flex; align-self: flex-start; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; padding: 6px 12px; border-radius: 20px; margin-bottom: 16px; }
+  .xpill-muted { background: rgba(255,255,255,0.06); color: var(--t2); border: 1px solid var(--line); }
+  .xpill-accent { background: rgba(124,140,255,0.15); color: var(--accent); border: 1px solid rgba(124,140,255,0.35); }
+  .xshot-wrap { position: relative; }
+  .xshot-glow { position: absolute; inset: -16px; background: radial-gradient(circle at 50% 30%, rgba(124,140,255,0.35), transparent 70%); filter: blur(40px); z-index: 0; }
+  .xshot-frame {
+    position: relative; z-index: 1; border-radius: 12px; border: 1px solid var(--line-strong);
+    overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+  .xshot-frame img { width: 100%; display: block; }
+  .xcompare-caption { font-size: 12.5px; color: var(--t3); margin-top: 14px; line-height: 1.55; }
+  .xcompare-caption strong { color: var(--t2); font-weight: 500; }
+
+  /* scoping bento grid */
+  .xbento { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-bottom: 32px; }
+  .xbento-item { background: var(--raised); padding: 30px 28px; }
+  .xbento-n { font-size: 12px; font-weight: 600; color: var(--t3); margin-bottom: 14px; }
+  .xbento-item h3 { font-size: 16px; font-weight: 500; color: var(--t1); margin: 0 0 8px; }
+  .xbento-item p { font-size: 13.5px; color: var(--t2); line-height: 1.7; font-weight: 300; margin: 0; }
+
+  .ximg-block { margin: 36px 0; position: relative; }
+  .ximg-block img { width: 100%; border-radius: 12px; border: 1px solid var(--line-strong); box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: block; }
+  .ximg-caption { font-size: 12px; color: var(--t3); margin-top: 12px; }
+
+  /* prototype CTA */
+  .xproto {
+    position: relative; margin-top: 48px; padding: 56px 48px;
+    border-radius: 18px; border: 1px solid var(--line-strong);
+    background: radial-gradient(120% 140% at 15% 0%, rgba(124,140,255,0.16), transparent 60%), var(--raised);
+    overflow: hidden;
+  }
+  .xproto h3 { font-family: var(--sans); font-weight: 600; font-size: clamp(24px, 3vw, 32px); color: var(--t1); margin: 0 0 14px; letter-spacing: -0.015em; }
+  .xproto p { color: var(--t2); font-size: 15px; font-weight: 300; max-width: 480px; margin: 0 0 28px; }
+  .xproto-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14.5px; font-weight: 600; color: #0A0A0C;
+    background: var(--t1); padding: 14px 30px; border-radius: 9px;
+    text-decoration: none; transition: opacity 0.15s, transform 0.15s;
+  }
+  .xproto-link:hover { opacity: 0.9; transform: translateY(-1px); }
+  .xproto-note { font-size: 12.5px; color: var(--t3); font-style: italic; margin: 18px 0 0; }
+
+  /* closing cta */
+  .xcta {
+    background: var(--raised); border: 1px solid var(--line-strong);
+    border-radius: 16px; padding: 48px;
+    margin: 80px 0 100px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .xcta h3 { font-family: var(--sans); font-weight: 600; font-size: 24px; color: var(--t1); margin-bottom: 6px; }
+  .xcta p { color: var(--t3); font-size: 14px; margin: 0; }
+  .xcta-link {
+    font-size: 14px; font-weight: 600; color: #0A0A0C;
+    background: var(--t1); padding: 12px 28px; border-radius: 8px;
+    text-decoration: none; white-space: nowrap; transition: opacity 0.15s;
+  }
+  .xcta-link:hover { opacity: 0.88; }
+
+  /* responsive */
+  @media (max-width: 860px) {
+    .xwrap { padding-left: 24px; padding-right: 24px; }
+    .xhero { padding-top: 120px; }
+    .xmeta-row { flex-wrap: wrap; }
+    .xmeta-item { flex: 1 1 50%; border-right: none; border-bottom: 1px solid var(--line); }
+    .xtimeline { grid-template-columns: 1fr 1fr; }
+    .xfocus-grid, .xcompare, .xbento { grid-template-columns: 1fr; }
+    .xcta { flex-direction: column; align-items: flex-start; }
+    .xproto { padding: 40px 28px; }
+  }
+  @media (max-width: 560px) {
+    .xtimeline { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img class="nav-logo-icon" src="images/favicon/favicon.png" alt="">
+      Chrisyang
+    </a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger">
+          Works
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-dropdown-menu">
+          <a href="ai-experiment.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">AI Design</span></a>
+          <a href="saas-design.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">SaaS Design</span></a>
+          <a href="platform.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Platform design</span></a>
+          <a href="apps.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">App design</span></a>
+          <a href="branding.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Branding</span></a>
+          <a href="assessment.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Assessment</span></a>
+        </div>
+      </div>
+      <a href="https://drive.google.com/file/d/1PKk_yvtjGGQ4_b9qK4UiG_FFVXlT4Xbw/view?usp=sharing" target="_blank" class="nav-resume">Resume</a>
+      <a href="contact.html" class="nav-cta">Say Hello</a>
+    </div>
+    <div class="nav-mobile-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="xwrap">
+    <a href="index.html" class="back-home-link" style="margin-top:88px;display:inline-flex;">← Back To Home Page</a>
+
+    <!-- HERO -->
+    <header class="xhero">
+      <p class="xeyebrow">AI Design · Experimental · B2B SaaS</p>
+      <h1>Turning a report into a co-pilot</h1>
+      <p class="xhero-sub">How a client ask for "just a report" became a case for AI-assisted triage — followed end-to-end into a clickable prototype.</p>
+
+      <div class="xvideo-wrap">
+        <div class="xglow"></div>
+        <div class="xvideo-frame">
+          <video autoplay muted loop playsinline poster="images/ai-experiment/video/hero-demo-poster.jpg">
+            <source src="images/ai-experiment/video/hero-demo.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="xmeta-row">
+        <div class="xmeta-item"><div class="xmeta-label">My Role</div><div class="xmeta-value">Senior Product Designer</div></div>
+        <div class="xmeta-item"><div class="xmeta-label">Team</div><div class="xmeta-value">Self-directed — validated with PM &amp; Eng</div></div>
+        <div class="xmeta-item"><div class="xmeta-label">Platform</div><div class="xmeta-value">RevUP — iTradeNetwork</div></div>
+        <div class="xmeta-item"><div class="xmeta-label">Duration</div><div class="xmeta-value">Ongoing exploration</div></div>
+        <div class="xmeta-item"><div class="xmeta-label">Status</div><div class="xmeta-value">Validated with client — prototype in progress</div></div>
+      </div>
+    </header>
+
+    <!-- THE SPARK -->
+    <section class="xsection" id="spark">
+      <p class="xkicker">The Spark</p>
+      <h2>It started as a request for <span class="xfaint">a report</span></h2>
+      <div class="xprose">
+        <p>Sodexo relied on a legacy third-party tool, provided through iTradeNetwork, to confirm that distributor POS files were arriving correctly. That tool was being sunset and no longer worked reliably — leaving the client with no way to verify incoming files at all.</p>
+        <p>This wasn't a cosmetic gap. If a distributor's file doesn't reconcile with what's expected, the invoice built on it is wrong.</p>
+      </div>
+      <div class="xquote">A wrong invoice isn't just a data-quality issue. It produces billing disputes and distributor churn — and the client was explicit that this risk was critical, not a nice-to-have.</div>
+      <div class="xprose">
+        <p>Engineering and PM's first instinct, working toward a minimal viable replacement, was to simply expose the underlying data as a report. It made sense — it was the fastest thing to ship. But that instinct undersold the actual problem.</p>
+        <p>A raw report only protects the business if someone reads it every day and correctly judges what's wrong from a table of numbers. For a non-technical reviewer, that's not a realistic expectation — and the first demo confirmed it. The client responded well to each incremental improvement we showed them, but kept surfacing the same hesitation: they needed to <strong>see</strong> that something was wrong, not infer it from raw figures. That gap — between "the data exists" and "someone trusts it enough to act on it" — is where the AI idea came from.</p>
+      </div>
+    </section>
+
+    <!-- USER JOURNEY -->
+    <section class="xsection" id="journey">
+      <p class="xkicker">User Journey</p>
+      <h2>A day in the life of <span class="xfaint">catching this manually</span></h2>
+      <div class="xprose" style="margin-bottom:36px;">
+        <p>Before AI was anywhere near the conversation, I mapped what the job actually looked like for the people doing it today — ops and finance reviewers checking dozens of distributor feeds every morning, with nothing but a table between them and a billing mistake.</p>
+      </div>
+      <div class="xtimeline">
+        <div class="xtimeline-item">
+          <div class="xtimeline-num">01</div>
+          <p class="xtimeline-phase">Every morning</p>
+          <h3>Open the report, start scanning</h3>
+          <p>No flags, no severity — just rows of names. The only way to notice a problem is to spot a number that looks too big.</p>
+        </div>
+        <div class="xtimeline-item">
+          <div class="xtimeline-num">02</div>
+          <p class="xtimeline-phase">Spot something off</p>
+          <h3>Decide if it actually matters</h3>
+          <p>Nine days late might be routine for a weekly vendor, or a real problem for a daily one. That context lives in memory, not the report.</p>
+        </div>
+        <div class="xtimeline-item">
+          <div class="xtimeline-num">03</div>
+          <p class="xtimeline-phase">Go digging</p>
+          <h3>Leave the report for context</h3>
+          <p>Check cadence, check if it's already flagged, message a teammate, check the VDA calendar separately. Nothing's in one place.</p>
+        </div>
+        <div class="xtimeline-item">
+          <div class="xtimeline-num">04</div>
+          <p class="xtimeline-phase">Decide &amp; act — maybe</p>
+          <h3>Escalate, or let it ride</h3>
+          <p>With no running history, every day restarts the judgment call from zero — usually under time pressure, right before a cutoff.</p>
+        </div>
+      </div>
+      <div class="xprose">
+        <p>None of this is a willpower problem. It's that the system hands people a spreadsheet and expects judgment it never helps them form. That's the exact gap the AI layer needed to close.</p>
+      </div>
+    </section>
+
+    <!-- TWO PITCHES -->
+    <section class="xsection" id="flows">
+      <p class="xkicker">Two Pitches</p>
+      <h2>The plain report pitch vs. <span class="xfaint">the AI-assisted pitch</span></h2>
+      <div class="xprose">
+        <p>I didn't want this comparison to stay theoretical, so I built both flows all the way to a clickable prototype — same data, same table, two very different experiences of using it.</p>
+      </div>
+
+      <div class="xfocus-grid">
+        <div class="xfocus-cell">
+          <div class="xfocus-label">Initial pitch — the plain report</div>
+          <ul>
+            <li>Every distributor shown with equal weight — no severity signal</li>
+            <li>Reviewer manually compares against the last period by eye</li>
+            <li>Context lives in memory, email, or a side spreadsheet</li>
+            <li>First action is always "read the whole table"</li>
+          </ul>
+        </div>
+        <div class="xfocus-cell is-ai">
+          <div class="xfocus-label">AI pitch — assisted triage</div>
+          <ul>
+            <li>Critical distributors surfaced before the report is even opened</li>
+            <li>Ask a plain question, get the specific record back</li>
+            <li>States the threshold and exactly how far over or under it</li>
+            <li>One click to the exact evidence, ready to export</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="xprose">
+        <p>There was a middle step too, between these two. Before AI, I tried color-coded flags and flexible period comparison — any period against any other, not just the prior one. It tested better, but the hesitation never fully went away: people could now <em>see</em> a flag, but still had to leave the screen to understand what to do about it. That's what pushed the pitch the rest of the way to an AI layer.</p>
+      </div>
+
+      <div class="xcompare">
+        <div class="xcompare-col">
+          <span class="xpill xpill-muted">Initial pitch</span>
+          <div class="xshot-wrap">
+            <div class="xshot-frame">
+              <img src="images/ai-experiment/flow-initial-plain-report.png" alt="Initial pitch: a plain POS data report table with no severity indicators or chart">
+            </div>
+          </div>
+          <p class="xcompare-caption"><strong>A plain data report.</strong> Nothing visually distinguishes a 2-day delay from a 52-day one — every row asks for the same attention.</p>
+        </div>
+        <div class="xcompare-col">
+          <span class="xpill xpill-accent">AI pitch</span>
+          <div class="xshot-wrap">
+            <div class="xshot-glow"></div>
+            <div class="xshot-frame">
+              <img src="images/ai-experiment/flow-ai-evidence-panel.png" alt="AI pitch: clicking a flagged alert opens an AI panel with status, notes, and context">
+            </div>
+          </div>
+          <p class="xcompare-caption"><strong>The same data, assisted.</strong> A flagged row opens straight into status, notes, and context — the evidence a reviewer needs, already assembled.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCOPING THE AI -->
+    <section class="xsection" id="scope">
+      <p class="xkicker">Scoping the AI</p>
+      <h2>Four jobs for the AI — <span class="xfaint">and nothing more</span></h2>
+      <div class="xprose">
+        <p>It would have been easy to let the AI scope creep — auto-resolving alerts, drafting distributor emails, predicting future delays. I deliberately minimized it to four capabilities: enough to close the trust gap without overreaching on a first release.</p>
+      </div>
+
+      <div class="xbento" style="margin-top:32px;">
+        <div class="xbento-item">
+          <div class="xbento-n">01</div>
+          <h3>Surface what's critical</h3>
+          <p>Automatically, before anyone opens the report — the way the alert below appears the moment the dashboard loads.</p>
+        </div>
+        <div class="xbento-item">
+          <div class="xbento-n">02</div>
+          <h3>Let the user ask</h3>
+          <p>Type a question, retrieve what's wrong with a specific record — no query language or filter panel required.</p>
+        </div>
+        <div class="xbento-item">
+          <div class="xbento-n">03</div>
+          <h3>Explain against threshold</h3>
+          <p>State plainly whether a value is above or below the configured line, and by how much — not just a red dot.</p>
+        </div>
+        <div class="xbento-item">
+          <div class="xbento-n">04</div>
+          <h3>Jump to the evidence</h3>
+          <p>Take the user directly to the exact record, in a state ready to print or export for the distributor conversation.</p>
+        </div>
+      </div>
+
+      <div class="ximg-block">
+        <img src="images/ai-experiment/flow-ai-proactive-alert.png" alt="A proactive AI alert surfacing four critical distributors before the report is manually reviewed">
+        <p class="ximg-caption">Capability 01 in practice: critical alerts surfaced automatically, before a reviewer has scanned a single row.</p>
+      </div>
+
+      <div class="xquote">The AI assists and explains. It doesn't resolve anything on its own — the human reviewing the alert still makes the final call.</div>
+
+      <div class="xprose">
+        <p>This scope only got set after internal alignment — Engineering, PM, and our Director all had to agree on the efficiency case before it went anywhere near the client. When we did show it, the client confirmed it was exactly what they needed.</p>
+      </div>
+    </section>
+
+    <!-- TRY THE PROTOTYPE -->
+    <section class="xsection" id="prototype" style="border-bottom:none;">
+      <p class="xkicker">The Prototype</p>
+      <h2>A working prototype you can <span class="xfaint">click through</span></h2>
+      <div class="xprose">
+        <p>Everything above is built, not just mocked up. A toggle in the running prototype switches between the plain-report version and the AI-enhanced version, so the comparison is something you can feel, not just read about.</p>
+      </div>
+      <div class="xproto">
+        <h3>Open the clickable prototype</h3>
+        <p>Use the AI-Enhanced / MVP (Original) switch at the top to compare both pitches live.</p>
+        <a href="prototype/pos-ai/" class="xproto-link" target="_blank" rel="noopener">Launch prototype →</a>
+        <p class="xproto-note">Best viewed on desktop — it's a full dashboard prototype, not a mobile view.</p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="xcta">
+      <div>
+        <h3>Interested in working together?</h3>
+        <p>I'm open to senior product design roles in B2B SaaS, enterprise tools, and complex data-heavy domains.</p>
+      </div>
+      <a href="mailto:chris.yang.design@gmail.com" class="xcta-link">Get in touch →</a>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-copy">©2023. All rights reserved. Created by <a href="mailto:Chris.yang.design@gmail.com">Chris Yang</a></p>
+    <div class="footer-links">
+      <a href="https://drive.google.com/file/d/1C6L22A_inPMwB6SXOAL65EUYt7ZPldAD/view?usp=sharing" target="_blank">Resume</a>
+      <a href="contact.html">Say Hello</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
