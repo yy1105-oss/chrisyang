@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus — Christopher Yang</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    .gate {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #f0f0ee;
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gate-box {
+      background: #ffffff;
+      border-radius: 30px;
+      padding: 48px 56px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      min-width: 380px;
+    }
+    .gate-box h2 { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.75rem; color: #1a1a18; font-weight: 400; margin: 0; text-align: center; }
+    .gate-box p { font-size: 0.9375rem; color: #8a8a85; margin: 0; text-align: center; }
+    .gate-form { display: flex; gap: 8px; margin-top: 8px; }
+    .gate-input { padding: 10px 14px; border: 1px solid #e0e0dc; border-radius: 7px; font-family: 'DM Sans', system-ui, sans-serif; font-size: 0.9375rem; outline: none; width: 200px; }
+    .gate-input:focus { border-color: #2ab5b5; }
+    .gate-btn { padding: 10px 20px; background: #2ab5b5; color: white; border: none; border-radius: 7px; font-family: 'DM Sans', system-ui, sans-serif; font-size: 0.9375rem; font-weight: 500; cursor: pointer; }
+    .gate-btn:hover { background: #1f9494; }
+    .gate-error { color: #c0392b; font-size: 0.875rem; display: none; margin: 0; }
+
+    .meta-grid { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid #e0e0dc; border-radius: 10px; overflow: hidden; margin-top: 40px; }
+    .meta-cell { padding: 20px 24px; border-right: 1px solid #e0e0dc; }
+    .meta-cell:last-child { border-right: none; }
+    .meta-label { font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: #8a8a85; margin-bottom: 6px; }
+    .meta-value { font-size: 0.875rem; font-weight: 500; color: #1a1a18; line-height: 1.4; }
+
+    .problem-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .problem-item { display: flex; gap: 14px; align-items: flex-start; padding: 16px 20px; background: #f8f8f6; border-radius: 8px; border-left: 3px solid #2ab5b5; }
+    .problem-q { font-size: 0.75rem; font-weight: 600; color: #2ab5b5; text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; padding-top: 2px; }
+    .problem-text { font-size: 0.9375rem; color: #3a3a38; line-height: 1.6; margin: 0; }
+
+    .research-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 28px 0; }
+    .research-stat { background: #f8f8f6; border-radius: 10px; padding: 20px; text-align: center; }
+    .research-stat-num { font-family: 'DM Serif Display', Georgia, serif; font-size: 2rem; color: #2ab5b5; display: block; margin-bottom: 6px; }
+    .research-stat-label { font-size: 0.8125rem; color: #8a8a85; line-height: 1.4; }
+
+    .quote-styled {
+      background: #2ab5b5;
+      border-radius: 12px;
+      padding: 36px 40px;
+      margin: 28px 0;
+    }
+    .quote-styled .qs-mark { font-family: 'DM Serif Display', Georgia, serif; font-size: 3rem; color: rgba(255,255,255,0.4); line-height: 1; margin-bottom: -8px; display: block; }
+    .quote-styled p { font-size: 1.125rem; font-style: italic; color: #ffffff; line-height: 1.7; margin: 0 0 12px; }
+    .quote-styled cite { font-size: 0.875rem; color: rgba(255,255,255,0.75); font-style: normal; font-weight: 500; }
+
+    .quote-dark {
+      background: #1a1a18;
+      border-radius: 12px;
+      padding: 36px 40px;
+      margin: 28px 0;
+    }
+    .quote-dark .qs-mark { font-family: 'DM Serif Display', Georgia, serif; font-size: 3rem; color: rgba(255,255,255,0.15); line-height: 1; margin-bottom: -8px; display: block; }
+    .quote-dark p { font-size: 1.125rem; font-style: italic; color: #ffffff; line-height: 1.7; margin: 0; }
+    .quote-dark span { color: #2ab5b5; }
+
+    .pivot-block { background: #1a1a18; border-radius: 12px; padding: 32px 36px; margin: 28px 0; }
+    .pivot-block .pivot-label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #2ab5b5; margin-bottom: 10px; }
+    .pivot-block p { font-size: 1.0625rem; color: #ffffff; line-height: 1.65; margin: 0; font-style: italic; }
+
+    .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 24px; }
+    .persona-card { border: 1px solid #e0e0dc; border-radius: 10px; padding: 24px; }
+    .persona-role { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #2ab5b5; margin-bottom: 6px; }
+    .persona-name { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.25rem; color: #1a1a18; margin-bottom: 8px; }
+    .persona-quote { font-size: 0.875rem; font-style: italic; color: #8a8a85; border-left: 2px solid #e0e0dc; padding-left: 12px; margin: 12px 0; line-height: 1.5; }
+    .persona-pain-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #1a1a18; margin: 14px 0 6px; }
+    .persona-pain-list { padding-left: 16px; margin: 0; }
+    .persona-pain-list li { font-size: 0.875rem; color: #3a3a38; line-height: 1.6; margin-bottom: 4px; }
+
+    .process-flow { display: grid; grid-template-columns: repeat(4, 1fr); margin: 28px 0; border: 1px solid #e0e0dc; border-radius: 10px; overflow: hidden; }
+    .process-step { padding: 24px 20px; border-right: 1px solid #e0e0dc; }
+    .process-step:last-child { border-right: none; }
+    .process-phase { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #2ab5b5; margin-bottom: 8px; }
+    .process-title { font-size: 0.9375rem; font-weight: 500; color: #1a1a18; margin-bottom: 8px; line-height: 1.4; }
+    .process-desc { font-size: 0.8125rem; color: #8a8a85; line-height: 1.6; margin: 0; }
+
+    .del-list { display: flex; flex-direction: column; gap: 20px; margin-top: 24px; }
+    .del-item { display: flex; gap: 20px; align-items: flex-start; }
+    .del-n { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.75rem; color: #e0e0dc; flex-shrink: 0; line-height: 1; width: 40px; }
+    .del-title { font-weight: 600; font-size: 1rem; color: #1a1a18; margin-bottom: 4px; }
+    .del-body { font-size: 0.9375rem; color: #3a3a38; line-height: 1.7; margin: 0 0 8px; }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { font-size: 0.75rem; font-weight: 500; padding: 3px 10px; background: #f0f0ee; border-radius: 99px; color: #8a8a85; }
+
+    .outcome-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 28px 0; }
+    .outcome-cell { background: #f8f8f6; border-radius: 10px; padding: 28px 24px; text-align: center; }
+    .outcome-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #8a8a85; margin-bottom: 10px; }
+    .outcome-n { font-family: 'DM Serif Display', Georgia, serif; font-size: 2.5rem; color: #2ab5b5; margin-bottom: 8px; display: block; }
+    .outcome-desc { font-size: 0.8125rem; color: #8a8a85; line-height: 1.5; margin: 0; }
+
+    .cta-block { display: flex; align-items: center; justify-content: space-between; background: #f8f8f6; border-radius: 12px; padding: 32px 36px; margin-top: 56px; gap: 24px; }
+    .cta-block h3 { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.375rem; color: #1a1a18; margin-bottom: 6px; font-weight: 400; }
+    .cta-block p { font-size: 0.9375rem; color: #8a8a85; margin: 0; }
+    .cta-link { padding: 12px 24px; background: #2ab5b5; color: white; border-radius: 7px; font-weight: 500; font-size: 0.9375rem; white-space: nowrap; }
+    .cta-link:hover { background: #1f9494; }
+
+    @media (max-width: 680px) {
+      .gate-box { min-width: unset; padding: 32px 24px; margin: 24px; }
+      .meta-grid { grid-template-columns: repeat(2, 1fr); }
+      .research-stats { grid-template-columns: repeat(2, 1fr); }
+      .persona-grid, .outcome-row { grid-template-columns: 1fr; }
+      .process-flow { grid-template-columns: 1fr; }
+      .process-step { border-right: none; border-bottom: 1px solid #e0e0dc; }
+      .cta-block { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <div class="gate-box">
+    <h2>Password Required</h2>
+    <p>This case study is available to select viewers.</p>
+    <div class="gate-form">
+      <input type="password" class="gate-input" id="gate-input" placeholder="Enter password">
+      <button class="gate-btn" onclick="checkPassword()">Enter</button>
+    </div>
+    <p class="gate-error" id="gate-error">Incorrect password. Please try again.</p>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+      Chrisyang
+    </a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-trigger">
+          Works
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="nav-dropdown-menu">
+          <a href="ai-experiment.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">AI Design</span></a>
+          <a href="platform.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Platform design</span></a>
+          <a href="apps.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">App design</span></a>
+          <a href="branding.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Branding</span></a>
+          <a href="assessment.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Assessment</span></a>
+          <a href="secret.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">SaaS Design</span></a>
+          <a href="nexus.html" class="nav-dropdown-item"><span class="nav-dropdown-item-title">Nexus — MDM</span></a>
+        </div>
+      </div>
+      <a href="https://drive.google.com/file/d/1PKk_yvtjGGQ4_b9qK4UiG_FFVXlT4Xbw/view?usp=sharing" target="_blank" class="nav-resume">Resume</a>
+      <a href="contact.html" class="nav-cta">Say Hello</a>
+    </div>
+    <div class="nav-mobile-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="container">
+
+    <header class="case-hero">
+      <div class="case-hero-eyebrow">SaaS Design · Master Data Management</div>
+      <h1>Steering an Accelerated Pitch Back to What Users Actually Needed</h1>
+      <p class="case-hero-sub">How research-led design redirected a misaligned prototype and delivered 3 production-ready modules for Sodexo's single source of truth platform.</p>
+      <div class="meta-grid">
+        <div class="meta-cell"><div class="meta-label">Client</div><div class="meta-value">Sodexo</div></div>
+        <div class="meta-cell"><div class="meta-label">My Role</div><div class="meta-value">Senior Product Designer</div></div>
+        <div class="meta-cell"><div class="meta-label">Type</div><div class="meta-value">SaaS · Supply Chain</div></div>
+        <div class="meta-cell"><div class="meta-label">Duration</div><div class="meta-value">4 months · 2026</div></div>
+        <div class="meta-cell"><div class="meta-label">Scope</div><div class="meta-value">UI/UX · User Research · Wireframe · Design System</div></div>
+      </div>
+    </header>
+
+    <div class="case-body">
+
+      <!-- ABOUT -->
+      <section class="case-section">
+        <h3>About Nexus</h3>
+        <p>Nexus is Sodexo's Master Data Platform — a single source of truth for product, supplier, culinary, and compliance data across the entire supply chain. The platform consolidates fragmented legacy systems used by four internal teams: Product/MDM, Supplier Management, Culinary/Compliance, and Admin/IT.</p>
+        <p>Before Nexus, these teams operated across disconnected tools — SharePoint, Smartsheet, Excel, and multiple internal databases — with no unified view of item relationships, data health, or workflow status. Errors upstream cascaded silently into downstream invoicing and compliance failures.</p>
+        <div class="case-img-block">
+          <img src="images/nexus/Nexus-002-Legacy_system_problem.png" alt="Legacy Sodexo MDM system showing fragmented, dense data layout">
+          <p class="case-img-caption">The legacy Sodexo MDM — fragmented systems, confusing UI interactions, and difficult onboarding were the core problems to solve.</p>
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <!-- THE PROBLEM -->
+      <section class="case-section">
+        <h3>The Problem — What the Pitch Missed</h3>
+        <p>The initial PM-synthesized prototype had been greenlit and built quickly — but it was solving the wrong problem. It prioritized displaying comprehensive data tables over fast, targeted access. When real users got in front of it, the gaps were immediate.</p>
+
+        <div class="case-img-block">
+          <img src="images/nexus/nexus-005a-Pitch_prototype_screenshot.png" alt="Pitch prototype screenshot">
+          <p class="case-img-caption">The greenlit prototype — PM synthesized requirements, built fast, and moved forward. Real design work surfaced what it missed.</p>
+        </div>
+        <div class="case-img-block">
+          <img src="images/nexus/nexus-005b-Pitch_prototype_screenshot.png" alt="Nexus prototype — Relationship Map and product management view">
+          <p class="case-img-caption">The prototype's relationship map view — comprehensive but not what analysts actually needed day-to-day.</p>
+        </div>
+        <div class="case-img-block">
+          <img src="images/nexus/nexus-008-what_the_pitch_missed.png" alt="What the pitch missed — flow diagram">
+          <p class="case-img-caption">The pitch assumed users wanted to browse the full data table. Users actually needed fast search and direct navigation to a specific record to troubleshoot it.</p>
+        </div>
+
+        <div class="problem-list">
+          <div class="problem-item">
+            <span class="problem-q">Gap</span>
+            <p class="problem-text">How might we give users fast search and direct navigation to a specific item's detail view — instead of forcing them to browse a full data table?</p>
+          </div>
+          <div class="problem-item">
+            <span class="problem-q">Gap</span>
+            <p class="problem-text">How might we surface PI → MI → SI data relationships inline without requiring analysts to navigate between disconnected screens?</p>
+          </div>
+          <div class="problem-item">
+            <span class="problem-q">Gap</span>
+            <p class="problem-text">How might we design bulk upload with inline validation so data stewards can catch errors before they cascade into downstream invoicing failures?</p>
+          </div>
+          <div class="problem-item">
+            <span class="problem-q">Gap</span>
+            <p class="problem-text">How might we support four distinct teams with overlapping but conflicting workflows inside a single unified platform?</p>
+          </div>
+        </div>
+
+        <div class="pivot-block">
+          <div class="pivot-label">The Pivot</div>
+          <p>"Sophistication isn't more features — it's bringing users back to what they actually need."</p>
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <!-- DISCOVERY -->
+      <section class="case-section">
+        <h3>Discovery — What Research Revealed</h3>
+        <p>I ran stakeholder interviews across all four teams and mapped their actual day-to-day workflows. Analysts didn't start their day browsing data tables. They started with a specific request — a supplier item number, a product ID, a flagged error from finance — and needed to get directly to that record, troubleshoot it, and move on.</p>
+
+        <div class="case-img-block">
+          <img src="images/nexus/nexus-009-what-research-revealed-workflow.png" alt="Product Module Workflow — Analyst and Gatekeeper">
+          <p class="case-img-caption">Product Module workflow mapped end-to-end: from Day Start through Query, Locate Records, Gatekeeper Review, and Downstream Data Flow — exposing exactly where the system broke down.</p>
+        </div>
+
+        <div class="research-stats">
+          <div class="research-stat"><span class="research-stat-num">4</span><span class="research-stat-label">Teams with distinct workflows inside one shared platform</span></div>
+          <div class="research-stat"><span class="research-stat-num">18</span><span class="research-stat-label">Persona and journey map artifacts produced</span></div>
+          <div class="research-stat"><span class="research-stat-num">3</span><span class="research-stat-label">Production modules delivered: Product, Supplier, Culinary</span></div>
+          <div class="research-stat"><span class="research-stat-num">6–13</span><span class="research-stat-label">Daily meetings per analyst from cross-tool context switching</span></div>
+        </div>
+
+        <!-- HTML-styled quotes -->
+        <div class="quote-styled">
+          <span class="qs-mark">"</span>
+          <p>I'm moving a lot of data, under deadlines, with dependencies, and the system doesn't make it easy to know where to go.</p>
+          <cite>— Joe, Supplier Entities Data Steward</cite>
+        </div>
+
+        <div class="quote-styled">
+          <span class="qs-mark">"</span>
+          <p>The biggest inefficiency isn't the work itself — it's the time we spend waiting on data to move through the system.</p>
+          <cite>— Robert Worth, Director of Culinary Data & Ingredient Optimization</cite>
+        </div>
+      </section>
+
+      <!-- PERSONAS -->
+      <section class="case-section">
+        <h3>Personas — Four Teams, One Shared System</h3>
+        <div class="case-img-block">
+          <img src="images/nexus/nexus-003-Four_teams_cards.png" alt="Four teams: Product/MDM, Supplier, Culinary/Compliance, Admin/IT">
+          <p class="case-img-caption">Four teams, one shared platform — each with radically different workflows, failure modes, and mental models.</p>
+        </div>
+        <div class="case-img-block">
+          <img src="images/nexus/neuxs-007a-persona.png" alt="Persona — Robert Worth, Director of Culinary Data">
+          <p class="case-img-caption">Persona deep-dives grounded design decisions in real user workflows rather than assumed requirements.</p>
+        </div>
+        <div class="case-img-block">
+          <img src="images/nexus/nexus-007b-journeymap.png" alt="Customer journey map — Culinary Data Analyst">
+          <p class="case-img-caption">Journey mapping revealed where users experienced the highest friction — particularly during data aggregation and NAID comparison steps.</p>
+        </div>
+
+        <div class="persona-grid">
+          <div class="persona-card">
+            <div class="persona-role">Product / MDM — Team of 8</div>
+            <div class="persona-name">Holly's Team</div>
+            <div class="persona-quote">"Too many clicks and manual lookups to find key data across PI, MI, and SI relationships."</div>
+            <div class="persona-pain-title">Key Pain Points</div>
+            <ul class="persona-pain-list">
+              <li>Heavy manual effort — one record at a time in legacy system</li>
+              <li>No consolidated view of PI → MI → SI relationship chain</li>
+              <li>Analysts export to Excel for basic sorting and filtering</li>
+              <li>Context lost when switching between tools mid-task</li>
+            </ul>
+          </div>
+          <div class="persona-card">
+            <div class="persona-role">Supplier Management — Team of 5</div>
+            <div class="persona-name">Dawn's Org</div>
+            <div class="persona-quote">"If a customer number is wrong, invoices fail and units can't order."</div>
+            <div class="persona-pain-title">Key Pain Points</div>
+            <ul class="persona-pain-list">
+              <li>Bulk upload tool fails unpredictably over ~50 records</li>
+              <li>Validation errors don't identify which specific line is wrong</li>
+              <li>Duplicate customer numbers cause downstream invoice failures</li>
+              <li>No consolidated validation view before nightly jobs run</li>
+            </ul>
+          </div>
+          <div class="persona-card">
+            <div class="persona-role">Culinary / Compliance — Team of 2</div>
+            <div class="persona-name">Kelly's Team</div>
+            <div class="persona-quote">"The biggest inefficiency isn't the work itself — it's waiting on data to move through the system."</div>
+            <div class="persona-pain-title">Key Pain Points</div>
+            <ul class="persona-pain-list">
+              <li>Reliance on upstream systems creates overnight processing delays</li>
+              <li>6–13 meetings daily from constant cross-tool context switching</li>
+              <li>Errors require coordination across multiple teams and systems</li>
+              <li>No real-time visibility into data health or approval status</li>
+            </ul>
+          </div>
+          <div class="persona-card">
+            <div class="persona-role">Admin / IT — Team of 3</div>
+            <div class="persona-name">Mahendra's Team</div>
+            <div class="persona-quote">"We ensure mappings function daily so downstream systems don't break."</div>
+            <div class="persona-pain-title">Key Pain Points</div>
+            <ul class="persona-pain-list">
+              <li>Manual troubleshooting when uploads partially succeed</li>
+              <li>No consolidated validation view before nightly jobs</li>
+              <li>Configuration issues only surface after downstream failures</li>
+              <li>No audit trail for changes across programs and records</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <!-- PROCESS -->
+      <section class="case-section">
+        <h3>Design Process</h3>
+        <p>The process ran in tight cycles — research directly informing wireframes, wireframes validated through quick demos, findings reshaping the next sprint. Everything moved at product pace.</p>
+
+        <div class="process-flow">
+          <div class="process-step">
+            <div class="process-phase">Research</div>
+            <div class="process-title">Stakeholder interviews across all four teams</div>
+            <p class="process-desc">Mapped real daily workflows — not requirements doc assumptions. Surfaced the gap between what the pitch built and what users actually needed.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-phase">Synthesis</div>
+            <div class="process-title">Personas, journey maps, workflow diagrams</div>
+            <p class="process-desc">Built 18 persona and journey artifacts covering all roles. Product Module workflow mapped from Day Start through Gatekeeper Review and downstream data flow.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-phase">Design</div>
+            <div class="process-title">Search-first architecture — not data-table-first</div>
+            <p class="process-desc">Pivoted the home to a task-intent prompt: "What would you like to work on today?" Saved queries gave power users instant access to their most-used filters.</p>
+          </div>
+          <div class="process-step">
+            <div class="process-phase">Validation</div>
+            <div class="process-title">Quick demo validation with real users</div>
+            <p class="process-desc">Rapid demos with analysts from each team confirmed the pivot — users navigated to their target record in seconds vs. minutes in the legacy system.</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <!-- DELIVERABLES -->
+      <section class="case-section">
+        <h3>What We Delivered</h3>
+        <p>Three production-ready modules designed end-to-end — from user flows and wireframes through high-fidelity specs and design system components.</p>
+
+        <div class="case-img-block">
+          <img src="images/nexus/nexus-011-nexus-homepage-redesign.png" alt="Nexus redesigned home — search-first, What would you like to work on today?">
+          <p class="case-img-caption">The redesigned Nexus home: search-first, task-intent prompt, 4 quick-action cards, and a persistent saved queries panel — giving power users instant access without browsing.</p>
+        </div>
+
+        <div class="del-list">
+          <div class="del-item">
+            <div class="del-n">01</div>
+            <div>
+              <div class="del-title">Search-First Home — "What would you like to work on today?"</div>
+              <p class="del-body">Replaced the data-table-first entry point with a task-intent prompt. Live typeahead search, 4 quick-action cards, recently modified records, and a persistent saved queries panel.</p>
+              <div class="chips"><span class="chip">All modules</span><span class="chip">All teams</span></div>
+            </div>
+          </div>
+          <div class="del-item">
+            <div class="del-n">02</div>
+            <div>
+              <div class="del-title">Item Detail — Inline Relationship Navigation</div>
+              <p class="del-body">Status badge, preferred MI field with hard rule noted, collapsible MI/SI relationship peeks, and a slide-in Activity Log panel — all in one view. No more screen switching to understand a record's full relationship chain.</p>
+              <div class="chips"><span class="chip">PI / MI / SI detail</span><span class="chip">Relationship map</span></div>
+            </div>
+          </div>
+          <div class="del-item">
+            <div class="del-n">03</div>
+            <div>
+              <div class="del-title">Bulk Upload — Inline Validation with Error Specificity</div>
+              <p class="del-body">Drag-and-drop upload with real-time row-level validation errors, specific error messaging per line, and a pre-submission review state before nightly jobs — preventing downstream invoice failures at the source.</p>
+              <div class="chips"><span class="chip">Supplier module</span><span class="chip">Data steward workflow</span></div>
+            </div>
+          </div>
+          <div class="del-item">
+            <div class="del-n">04</div>
+            <div>
+              <div class="del-title">Saved Queries — Live Condition Builder</div>
+              <p class="del-body">Field/op/value rows, AND/OR logic toggle, Private/Published toggle — giving analysts a reusable, shareable filter system that replaced the Excel exports they'd been relying on.</p>
+              <div class="chips"><span class="chip">Power user feature</span><span class="chip">All modules</span></div>
+            </div>
+          </div>
+          <div class="del-item">
+            <div class="del-n">05</div>
+            <div>
+              <div class="del-title">Create Record — Inline Required Field Validation</div>
+              <p class="del-body">Auto-trim whitespace, live condition builder, Draft/Submit state gate — preventing upstream data errors before they reached the gatekeeper review stage.</p>
+              <div class="chips"><span class="chip">MDM workflow</span><span class="chip">Gatekeeper flow</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="case-divider">
+
+      <!-- OUTCOMES -->
+      <section class="case-section">
+        <h3>Outcomes</h3>
+        <div class="outcome-row">
+          <div class="outcome-cell">
+            <div class="outcome-label">Modules Delivered</div>
+            <span class="outcome-n">3</span>
+            <p class="outcome-desc">Product, Supplier, and Culinary modules delivered in 4 months — all production-ready with full specs and design system components.</p>
+          </div>
+          <div class="outcome-cell">
+            <div class="outcome-label">Research Artifacts</div>
+            <span class="outcome-n">18</span>
+            <p class="outcome-desc">Persona and journey map artifacts across 4 teams, grounding every design decision in real user workflows.</p>
+          </div>
+          <div class="outcome-cell">
+            <div class="outcome-label">Navigation Speed</div>
+            <span class="outcome-n">↑ Fast</span>
+            <p class="outcome-desc">Users reached their target record in seconds via typeahead search vs. minutes of table browsing in the legacy system.</p>
+          </div>
+        </div>
+
+        <div class="quote-dark">
+          <span class="qs-mark">"</span>
+          <p>Human judgment correcting the model's <span>blind spots.</span></p>
+        </div>
+      </section>
+
+      <div class="cta-block">
+        <div>
+          <h3>Interested in working together?</h3>
+          <p>I'm open to senior product design roles in B2B SaaS, enterprise tools, and complex data-heavy domains.</p>
+        </div>
+        <a href="contact.html" class="cta-link">Get in touch</a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-copy">©2026. All rights reserved. Created by <a href="mailto:Chris.yang.design@gmail.com">Chris Yang</a></p>
+    <div class="footer-links">
+      <a href="https://drive.google.com/file/d/1PKk_yvtjGGQ4_b9qK4UiG_FFVXlT4Xbw/view?usp=sharing" target="_blank">Resume</a>
+      <a href="contact.html">Say Hello</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  function checkPassword() {
+    var input = document.getElementById('gate-input').value;
+    if (input === 'saas') {
+      document.getElementById('gate').style.display = 'none';
+    } else {
+      document.getElementById('gate-error').style.display = 'block';
+    }
+  }
+  document.getElementById('gate-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPassword();
+  });
+</script>
+</body>
+</html>
