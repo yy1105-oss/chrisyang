@@ -24,8 +24,7 @@
     font-weight: 400;
   }
 
-  /* ── PAGE LAYOUT ── */
-  .page { max-width: 1100px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+  /* ── PAGE LAYOUT: uses the shared .container (max-width + 24px padding) from css/style.css ── */
 
   /* ── HERO META GRID ── */
   .meta-grid {
@@ -248,8 +247,7 @@
   .cta-link:hover { opacity: 0.88; }
 
   /* responsive */
-  @media (max-width: 800px) {
-    .page { padding-left: 24px; padding-right: 24px; }
+  @media (max-width: 860px) {
     .content-wrap { grid-template-columns: 1fr; }
     .sidebar { display: none; }
     .meta-grid { grid-template-columns: repeat(2, 1fr); }
@@ -299,6 +297,7 @@
 </nav>
 
 <main class="page">
+<div class="container">
 
   <a href="index.html" class="back-home-link">← Back To Home Page</a>
 
@@ -625,6 +624,7 @@
 
     </div>
   </div>
+</div>
 </main>
 
 <!-- FOOTER -->
